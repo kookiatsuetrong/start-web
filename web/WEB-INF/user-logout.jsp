@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Profile</title>
+		<title>Log Out</title>
 		<link rel="stylesheet" href="/normalize.css" />
 		<link rel="stylesheet" href="/main.css" />
 	</head>
 	<body>
 		<main>
 			<section class="container">
-				<p>This is the profile page</p>
-				
-				<a href="/logout" class="button">Log Out</a>
+				<p>
+					You have been logged out.
+				</p>
+				<a class="button" href="/user-register-login">Log In</a>
 			</section>
 		</main>
 		<footer></footer>
 	</body>
 </html>
+
 

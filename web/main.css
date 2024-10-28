@@ -103,7 +103,7 @@ html {
 }
 
 body {
-	font-family: "sarabun", "publicsans";
+	font-family: "publicsans";
 	color: #333;
 	background: #f8fffd;
 	/* background: #f8fdff; */
@@ -114,7 +114,7 @@ body {
 	min-height: 100dvh;
 	/*
 	display: grid;
-	grid-template-rows: auto 1fr auto;
+	grid-template-rows: 10rem 1fr 10rem;
 	*/
 	
 	display: flex;
@@ -127,7 +127,7 @@ h2 { font-size: 1.75rem; font-weight: 400; margin: 0; }
 h3 { font-size: 1.50rem; font-weight: 400; margin: 0; }
 
 .container {
-	width: 96%;
+	width: 90%;
 	margin: 0 auto;
 	max-width: 1024px;
 }
@@ -193,6 +193,7 @@ h3 { font-size: 1.50rem; font-weight: 400; margin: 0; }
 * {
 	outline: none;
 }
+
 a {
 	text-decoration: none;
 	color: #333;
@@ -308,4 +309,15 @@ footer .footer-container {
 }
 input[type=file] {
 	
+}
+
+.user-form {
+	max-width: 320px;
+	margin: 0 auto;
+}
+.user-form h3 {
+	margin-bottom: 1rem;
+}
+.user-form input {
+	margin-bottom: .5rem;
 }

@@ -9,8 +9,12 @@
 		<main>
 			<section class="container">
 			<%
-				out.println("Welcome to JSP");
+				out.println("This is a JSP page");
 			%>
+			<br/>
+			<br/>
+			<a class="button" href="/user-register-login">Register</a>
+			<a class="button" href="/user-register-login">Log In</a>
 			</section>
 		</main>
 		<footer></footer>

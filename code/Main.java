@@ -2,24 +2,47 @@ import start.web.Server;
 import start.web.Context;
 import java.util.Map;
 import jakarta.json.JsonObject;
+import jakarta.servlet.http.HttpSession;
 
 class Main {
 	
 	void start() {
 		var server = Server.getInstance();
-		server.handle("/register")  .by(Main::showRegisterPage);
-		server.handle("/profile")   .by(Main::showProfilePage);
-		server.handle("/logout")    .by(Main::showLogOutPage);
 		
-		server.handle("/login")     .by(Main::showLogInPage);
-		server.handle("/login")     .via("POST")
-									.by(Main::checkPassword);
+		server.handle("/user-register-login")   .by(Main::askEmail);
+		server.handle("/user-register-login")   .via("POST")
+												.by(Main::checkEmail);
+		
+		server.handle("/user-register") .by(Main::showRegisterPage);
+		server.handle("/user-profile")  .by(Main::showProfilePage);
+		server.handle("/user-logout")   .by(Main::showLogOutPage);
+		
+		server.handle("/user-login")    .by(Main::showLogInPage);
+		server.handle("/user-login")    .via("POST")
+										.by(Main::checkPassword);
 		
 		server.handleError(Main::showError);
 	}
 	
+	static Object askEmail(Context context) {
+		return context.forward("/WEB-INF/user-ask-email.jsp");
+	}
+	
+	static Object checkEmail(Context context) {
+		String email = context.getParameter("email");
+		User user = Storage.getUserByEmail(email);
+		HttpSession session = context.getSession(true);
+		session.setAttribute("email", email);
+		
+		if (user == null) {
+			return context.redirect("/user-register");
+		} else {
+			return context.redirect("/user-login");
+		}
+	}
+	
 	static Object showRegisterPage(Context context) {
-		return context.forward("/WEB-INF/register.jsp");
+		return context.forward("/WEB-INF/user-register.jsp");
 	}
 	
 	static Object showError(Context context) {
@@ -27,41 +50,48 @@ class Main {
 	}
 	
 	static Object showLogInPage(Context context) {
-		return context.forward("/WEB-INF/login.jsp");
+		return context.forward("/WEB-INF/user-login.jsp");
 	}
 	
 	static Object checkPassword(Context context) {
 		var email    = context.getParameter("email");
 		var password = context.getParameter("password");
 		
-		if ("user".equals(email) && 
-			"password".equals(password)) {
+		User user = Storage.checkPassword(email, password);
+		if (user == null) {
+			return context.redirect("/user-login");
+		} else {
 			var session = context.getSession(true);
 			session.setAttribute("email", email);
-			return context.redirect("/profile");
-		} else {
-			return context.redirect("/login");
+			session.setAttribute("loggedIn", true);
+			return context.redirect("/user-profile");
 		}
 	}
 	
 	static Object showProfilePage(Context context) {
 		var session = context.getSession(false);
 		if (session == null) {
-			return context.redirect("/login");
-		}
-		var email = (String)session.getAttribute("email");
-		if (email == null) {
-			return context.redirect("/login");
+			return context.redirect("/user-register-login");
 		}
 		
-		return context.forward("/WEB-INF/profile.jsp");
+		Boolean loggedIn = (Boolean)session.getAttribute("loggedIn");
+		if (loggedIn == null) {
+			return context.redirect("/user-register-login");
+		}
+		
+		if (loggedIn == false) {
+			return context.redirect("/user-register-login");
+		}
+
+		return context.forward("/WEB-INF/user-profile.jsp");
 	}
 	
 	static Object showLogOutPage(Context context) {
 		var session = context.getSession(false);
 		if (session != null) {
 			session.removeAttribute("email");
+			session.removeAttribute("loggedIn");
 		}
-		return context.forward("/WEB-INF/logout.jsp");
+		return context.forward("/WEB-INF/user-logout.jsp");
 	}
 }
