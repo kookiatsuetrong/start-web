@@ -1,0 +1,26 @@
+<project>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>sample-framework</groupId>
+	<artifactId>sample</artifactId>
+	<version>live</version>
+	<build>
+		<sourceDirectory>code</sourceDirectory>
+		<testSourceDirectory>test</testSourceDirectory>
+	</build>
+	<properties>
+		<maven.compiler.source>23</maven.compiler.source>
+		<maven.compiler.target>23</maven.compiler.target>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-core</artifactId>
+			<version>RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.json</groupId>
+			<artifactId>jakarta.json-api</artifactId>
+			<version>RELEASE</version>
+		</dependency>
+	</dependencies>
+</project>
