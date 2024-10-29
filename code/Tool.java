@@ -40,9 +40,14 @@ class Tool {
 	static String randomPhotoCode() {
 		int r = (int)(Math.random() * 10000);
 		String s = "" + r;
-		if (s.length() < 4) s = "0" + s;
-		if (s.length() < 4) s = "0" + s;
-		if (s.length() < 4) s = "0" + s;
+		while (s.length() < 4) { s = "0" + s; }
+		return s;
+	}
+	
+	static String randomActivationCode() {
+		int r = (int)(Math.random() * 1000000);
+		String s = "" + r;
+		while (s.length() < 6) { s = "0" + s; }
 		return s;
 	}
 }

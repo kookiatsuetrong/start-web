@@ -17,26 +17,39 @@
 			<section class="container">
 				<form class="user-form" method="post">
 					<h3>Create New Account</h3>
-					<input name="email" 
-						   placeholder="Your Email" 
-						   autocomplete="off"
-						   readonly
-						   value="<%= email %>"
-						   />
+					<p>
+						The activation code has been
+						sent to the given email.
+					</p>
+					
+					<input name="activation-code"
+						placeholder="Activation Code"
+						autofocus
+						required
+						/>
+					
+					<input name="email"
+						placeholder="Your Email" 
+						autocomplete="off"
+						readonly
+						value="<%= email %>"
+						/>
 					
 					<input name="password" 
-						   type="password"
-						   placeholder="Your Password"
-						   autofocus
-						   />
+						type="password"
+						placeholder="Your Password"
+						required
+						/>
 					
 					<input name="first-name"
-						   placeholder="First Name"
-						   />
+						placeholder="First Name"
+						required
+						/>
 					
 					<input name="last-name"
-						   placeholder="Last Name"
-						   />
+						placeholder="Last Name"
+						required
+						/>
 					
 					<button>Create Account</button>
 				</form>
