@@ -3,16 +3,16 @@ import start.web.Context;
 import java.util.Map;
 import jakarta.json.JsonObject;
 
-class Another {
+class Sample {
 	
 	void start() {
 		var server = Server.getInstance();
 		server.handle("/another", () -> "Another Web Page");
 	}
+	
 }
 
-/*
-// Additional Idea
+/* Additional Idea
 
 import static start.web.Server.*;
 

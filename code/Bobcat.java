@@ -1,3 +1,11 @@
+/**
+ * Bobcat is an embedded version of Tomcat.
+ * 
+ * Example of usage:
+ * 
+ * java Bobcat --home web --port 1558
+ *
+ */
 import java.io.File;
 import org.apache.catalina.Server;
 import org.apache.catalina.Service;
@@ -55,29 +63,3 @@ class Bobcat {
 // --port 12345
 // --home web
 // --war sample.war
-
-/*
-
-Conventional
-'-- web
-	'-- photo.jpg
-	'-- main.css
-	'-- view.jsp
-	'-- sample.jsp
-	'-- WEB-INF
-		'-- web.xml
-		'-- classes
-			'-- Main.class
-
-Bobcat
-'-- sample
-	'-- web.xml
-	'-- runtime
-	'	'-- Main.class
-	'-- web
-		'-- photo.jpg
-		'-- main.css
-		'-- view.jsp
-		'-- sample.jsp
-
-*/

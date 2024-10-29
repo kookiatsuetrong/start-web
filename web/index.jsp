@@ -13,8 +13,8 @@
 			%>
 			<br/>
 			<br/>
-			<a class="button" href="/user-register-login">Register</a>
-			<a class="button" href="/user-register-login">Log In</a>
+			<a class="button" href="/user-check-email">Register</a>
+			<a class="button" href="/user-check-email">Log In</a>
 			</section>
 		</main>
 		<footer></footer>

@@ -182,8 +182,8 @@ h3 { font-size: 1.50rem; font-weight: 400; margin: 0; }
 	--input-border-radius: .25rem;
 	--textarea-height: 8rem;
 	
-	--button-border: #ccc;
-	--button-border-hover: #bbb;
+	--button-border: #888;
+	--button-border-hover: #444;
 	--button-text-color: white;
 	--button-text-color-hover: #333;
 	--button-height: 2.275rem;
