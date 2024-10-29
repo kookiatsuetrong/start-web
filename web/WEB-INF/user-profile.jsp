@@ -6,9 +6,15 @@
 		<link rel="stylesheet" href="/main.css" />
 	</head>
 	<body>
+		<header></header>
 		<main>
 			<section class="container">
-				<p>This is the profile page</p>
+				<%
+				// User user = (User)session.getAttribute("user");
+				String email = (String)session.getAttribute("email");
+					
+				%>
+				<p>Email: <%= email %></p>
 				
 				<a href="/user-logout" class="button">Log Out</a>
 			</section>

@@ -6,6 +6,7 @@
 		<link rel="stylesheet" href="/main.css" />
 	</head>
 	<body>
+		<header></header>
 		<main>
 			<section class="container">
 				<p>Not Found</p>

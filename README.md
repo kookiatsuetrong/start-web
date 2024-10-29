@@ -18,7 +18,11 @@ emailAddress  = support@sample.com
 emailServer   = smtp.sample.com
 emailSender   = Sender Name
 emailPort     = 587
+emailSecurity = TLSv1.2
 ```
 
 
-
+```
+Context.forward() reserves HTTP verb.
+Context.redirect() sends HTTP 301 code.
+```

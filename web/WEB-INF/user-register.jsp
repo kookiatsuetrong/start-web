@@ -9,10 +9,26 @@
 		<header></header>
 		<main>
 			<%
-				String email = (String)session.getAttribute("email");
-				if (email == null) {
-					email = "";
-				}
+				String code      = (String)session.getAttribute("code");
+				String email     = (String)session.getAttribute("email");
+				String password  = (String)session.getAttribute("password");
+				String firstName = (String)session.getAttribute("first-name");
+				String lastName  = (String)session.getAttribute("last-name");
+
+				if (code      == null) code      = "";
+				if (email     == null) email     = "";
+				if (password  == null) password  = "";
+				if (firstName == null) firstName = "";
+				if (lastName  == null) lastName  = "";
+				session.removeAttribute("code");
+				session.removeAttribute("email");
+				session.removeAttribute("password");
+				session.removeAttribute("first-name");
+				session.removeAttribute("last-name");
+				
+				String message = (String)session.getAttribute("message");
+				if (message == null) message = "";
+				session.removeAttribute("message");
 			%>
 			<section class="container">
 				<form class="user-form" method="post">
@@ -25,7 +41,9 @@
 					<input name="activation-code"
 						placeholder="Activation Code"
 						autofocus
+						autocomplete="off"
 						required
+						value="<%= code %>"
 						/>
 					
 					<input name="email"
@@ -38,20 +56,27 @@
 					<input name="password" 
 						type="password"
 						placeholder="Your Password"
+						autocomplete="off"
 						required
+						value="<%= password %>"
 						/>
 					
 					<input name="first-name"
 						placeholder="First Name"
+						autocomplete="off"
 						required
+						value="<%= firstName %>"
 						/>
 					
 					<input name="last-name"
 						placeholder="Last Name"
+						autocomplete="off"
 						required
+						value="<%= lastName %>"
 						/>
 					
 					<button>Create Account</button>
+					<%= message %>
 				</form>
 			</section>
 		</main>

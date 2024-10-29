@@ -6,12 +6,13 @@
 		<link rel="stylesheet" href="/main.css" />
 	</head>
 	<body>
+		<header></header>
 		<main>
 			<section class="container">
 				<p>
 					You have been logged out.
 				</p>
-				<a class="button" href="/user-register-login">Log In</a>
+				<a class="button" href="/user-check-email">Log In</a>
 			</section>
 		</main>
 		<footer></footer>

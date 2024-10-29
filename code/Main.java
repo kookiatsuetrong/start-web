@@ -9,58 +9,15 @@ import jakarta.servlet.http.HttpSession;
 List of session variable
 email           ---> Email for redirecting mechanism
 code            ---> Verification Code
-photo-code      ---> Verification Code BASE64
+photo-code      ---> Verification Code (BASE64)
 activation-code ---> Activation Code
 message         ---> Error message
-loggedIn        ---> TODO: Change to user
 */
 
 class Main {
-	static boolean enableEmail  = true;
-	static String emailSender   = "";
-	static String emailSecurity = "TLSv1.2";
-	static String emailServer   = "";
-	static String emailPort     = "";
-	static String emailAddress  = "";
-	static String emailPassword = "";
 	
 	void start() {
-		
-		String buffer = "";
-		try {
-			FileReader fr = new FileReader("setup.txt");
-			while (true) {
-				int k = fr.read();
-				if (k == -1) break;
-				buffer += (char)k;
-			}
-			fr.close();
-		} catch (Exception e) { }
-		
-		String [] lines = buffer.split("\n");
-		for (String s : lines) {
-			String [] tokens = s.trim().split("=");
-			if (tokens.length != 2) continue;
-			if (tokens[0] == null) continue;
-			if (tokens[1] == null) continue;
-			tokens[0] = tokens[0].trim();
-			tokens[1] = tokens[1].trim();
-
-			switch (tokens[0]) {
-				case "emailAddress"  -> Main.emailAddress  = tokens[1];
-				case "emailPassword" -> Main.emailPassword = tokens[1];
-				case "emailServer"   -> Main.emailServer   = tokens[1];
-				case "emailSender"   -> Main.emailSender   = tokens[1];
-				case "emailPort"     -> Main.emailPort     = tokens[1];
-			}
-		}
-
-		System.out.println("emailAddress:  " + Main.emailAddress);
-		System.out.println("emailPassword: " + Main.emailPassword);
-		System.out.println("emailServer:   " + Main.emailServer);
-		System.out.println("emailSender:   " + Main.emailSender);
-		System.out.println("emailPort:     " + Main.emailPort);
-		
+		readConfiguration();
 		var server = Server.getInstance();
 		
 		server.handle("/user-check-email")  .by(Main::askEmail);
@@ -81,6 +38,44 @@ class Main {
 		server.handleError(Main::showError);
 	}
 	
+	static boolean enableEmail  = true;
+	static String emailSender   = "";
+	static String emailSecurity = "";
+	static String emailServer   = "";
+	static String emailPort     = "";
+	static String emailAddress  = "";
+	static String emailPassword = "";
+	
+	void readConfiguration() {
+		String buffer = "";
+		try (FileReader fr = new FileReader("setup.txt")) {
+			while (true) {
+				int k = fr.read();
+				if (k == -1) break;
+				buffer += (char)k;
+			}
+		} catch (Exception e) { }
+		
+		String [] lines = buffer.split("\n");
+		for (String s : lines) {
+			String [] tokens = s.trim().split("=");
+			if (tokens.length != 2) continue;
+			if (tokens[0] == null) continue;
+			if (tokens[1] == null) continue;
+			tokens[0] = tokens[0].trim();
+			tokens[1] = tokens[1].trim();
+
+			switch (tokens[0]) {
+				case "emailAddress"  -> Main.emailAddress  = tokens[1];
+				case "emailPassword" -> Main.emailPassword = tokens[1];
+				case "emailServer"   -> Main.emailServer   = tokens[1];
+				case "emailSender"   -> Main.emailSender   = tokens[1];
+				case "emailPort"     -> Main.emailPort     = tokens[1];
+				case "emailSecurity" -> Main.emailSecurity = tokens[1];
+			}
+		}	
+	}
+	
 	static Object askEmail(Context context) {
 		String code = Tool.randomPhotoCode();
 		String photoCode = Tool.createPhotoCode(code);
@@ -93,8 +88,9 @@ class Main {
 	static Object checkEmail(Context context) {
 		HttpSession session = context.getSession(true);
 		String code = (String)session.getAttribute("code");
+		if (code == null) code = "";
+		session.removeAttribute("code");
 		String photoCode = context.getParameter("code");
-		code = code == null ? "" : code;
 		
 		if (code.equals(photoCode)) {		
 			String email = context.getParameter("email");
@@ -119,10 +115,7 @@ class Main {
 	}
 	
 	static Object showRegisterPage(Context context) {
-		HttpSession session = context.getSession(false);
-		if (session == null) {
-			return context.redirect("/user-check-email");
-		}
+		HttpSession session = context.getSession(true);
 		String email = (String)session.getAttribute("email");
 		if (email == null) {
 			return context.redirect("/user-check-email");
@@ -131,12 +124,73 @@ class Main {
 	}
 	
 	static Object createAccount(Context context) {
+		HttpSession session = context.getSession(true);
+		String activation = (String)session.getAttribute("activation-code");
+		
+		String code      = context.getParameter("activation-code");
 		String email     = context.getParameter("email");
 		String password  = context.getParameter("password");
 		String firstName = context.getParameter("first-name");
 		String lastName  = context.getParameter("last-name");
+		if (code      == null) code      = "";
+		if (email     == null) email     = "";
+		if (password  == null) password  = "";
+		if (firstName == null) firstName = "";
+		if (lastName  == null) lastName  = "";
+		
+		session.setAttribute("code",       code);
+		session.setAttribute("email",      email);
+		session.setAttribute("password",   password);
+		session.setAttribute("first-name", firstName);
+		session.setAttribute("last-name",  lastName);
+		
+		if (firstName.length() < 2) {
+			session.setAttribute("message", "Invalid first name");
+			return context.redirect("/user-register");
+		}
+		
+		if (lastName.length() < 2) {
+			session.setAttribute("message", "Invalid last name");
+			return context.redirect("/user-register");
+		}
+		
+		if (password.length() < 8) {
+			session.setAttribute("message", 
+					"Password must have 8 characters or more");
+			return context.redirect("/user-register");
+		}
+		
+		if (password.matches(".*[0-9].*") == false) {
+			session.setAttribute("message", "Password must have a number");
+			return context.redirect("/user-register");
+		}
+		
+		if (password.matches(".*[A-Z].*") == false) {
+			session.setAttribute("message", "Password must have an uppercase");
+			return context.redirect("/user-register");
+		}
+		
+		if (password.matches(".*[a-z].*") == false) {
+			session.setAttribute("message", "Password must have a lowercase");
+			return context.redirect("/user-register");
+		}
+		
+		if (code.equals(activation) == false) {
+			session.setAttribute("message", "Invalid activation code");
+			return context.redirect("/user-register");
+		}
+		
+		session.removeAttribute("code");
+		session.removeAttribute("email");
+		session.removeAttribute("password");
+		session.removeAttribute("first-name");
+		session.removeAttribute("last-name");
+		session.removeAttribute("activation-code");
 		Storage.createAccount(email, password, firstName, lastName);
-		return context.forward("/");
+		User user = Storage.checkPassword(email, password);
+		
+		session.setAttribute("user", user);
+		return context.redirect("/user-profile");
 	}
 	
 	static Object showError(Context context) {
@@ -157,34 +211,26 @@ class Main {
 		} else {
 			var session = context.getSession(true);
 			session.setAttribute("email", email);
-			session.setAttribute("loggedIn", true);
+			session.setAttribute("user", user);
 			return context.redirect("/user-profile");
 		}
 	}
 	
 	static Object showProfilePage(Context context) {
-		var session = context.getSession(false);
-		if (session == null) {
+		var session = context.getSession(true);
+		User user = (User)session.getAttribute("user");
+		if (user == null) {
 			return context.redirect("/user-check-email");
+		} else {
+			return context.forward("/WEB-INF/user-profile.jsp");
 		}
-		
-		Boolean loggedIn = (Boolean)session.getAttribute("loggedIn");
-		if (loggedIn == null) {
-			return context.redirect("/user-check-email");
-		}
-		
-		if (loggedIn == false) {
-			return context.redirect("/user-check-email");
-		}
-
-		return context.forward("/WEB-INF/user-profile.jsp");
 	}
 	
 	static Object showLogOutPage(Context context) {
 		var session = context.getSession(false);
 		if (session != null) {
 			session.removeAttribute("email");
-			session.removeAttribute("loggedIn");
+			session.removeAttribute("user");
 		}
 		return context.forward("/WEB-INF/user-logout.jsp");
 	}
