@@ -1,12 +1,13 @@
-import start.web.User;
+package start.web;
+
 import java.sql.DriverManager;
 
-class Storage {
+public class Storage {
 
 	static String source = "jdbc:mysql://127.0.0.1/sample" +
 					"?user=me&password=password";
 	
-	static User 
+	public static User 
 	getUserByEmail(String email) {
 		var sql = "select * from users where email = ?";
 		User u = null;
@@ -24,7 +25,7 @@ class Storage {
 		return u;
 	}
 	
-	static User
+	public static User
 	checkPassword(String email, String password) {
 		var sql =   " select * from users where email = ? " +
 					" and password = sha2(?, 512)         ";
@@ -44,7 +45,7 @@ class Storage {
 		return u;
 	}
 	
-	static boolean
+	public static boolean
 	createAccount(String email, String password, 
 			String firstName, String lastName) {
 		boolean result = false;

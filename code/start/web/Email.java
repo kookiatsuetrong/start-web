@@ -1,3 +1,5 @@
+package start.web;
+
 import java.util.Properties;
 import jakarta.mail.Session;
 import jakarta.mail.Message;
@@ -13,9 +15,9 @@ import java.io.FileReader;
 import java.util.Map;
 import java.util.TreeMap;
 
-class Email {
+public class Email {
 
-	void sendActivationCode(String target, String code) {
+	public void sendActivationCode(String target, String code) {
 		EmailSender es = new EmailSender();
 		es.target  = target;
 		es.subject = "Activation Code";

@@ -1,3 +1,5 @@
+package start.web;
+
 /**
  * Collections of common tools.
  */
@@ -10,7 +12,7 @@ import java.util.Base64;
 import javax.imageio.ImageIO;
 
 
-class Tool {
+public class Tool {
 	
 	/*
 	*	Creates a photo of the given string.
@@ -37,14 +39,14 @@ class Tool {
 		return "";
 	}
 	
-	static String randomPhotoCode() {
+	public static String randomPhotoCode() {
 		int r = (int)(Math.random() * 10000);
 		String s = "" + r;
 		while (s.length() < 4) { s = "0" + s; }
 		return s;
 	}
 	
-	static String randomActivationCode() {
+	public static String randomActivationCode() {
 		int r = (int)(Math.random() * 1000000);
 		String s = "" + r;
 		while (s.length() < 6) { s = "0" + s; }
