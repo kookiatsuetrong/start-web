@@ -37,17 +37,19 @@
 				}
 				*/
 				String codeType = "text";
-				if (start.web.EmailSender.enableEmail == false) {
+				if (start.web.EmailSender.emailEnable == false) {
 					codeType = "hidden";
 				}
 			%>
 			<section class="container">
 				<form class="user-form" method="post">
 					<h3>Create New Account</h3>
+					<% if (start.web.EmailSender.emailEnable) { %>
 					<p>
 						The activation code has been
 						sent to the given email.
 					</p>
+					<% }                                        %>
 					
 					<input name="activation-code"
 						placeholder="Activation Code"

@@ -1,7 +1,7 @@
 <project>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>sample-framework</groupId>
-	<artifactId>framework</artifactId>
+	<artifactId>start-web</artifactId>
 	<version>live</version>
 	<build>
 		<sourceDirectory>code</sourceDirectory>

@@ -73,7 +73,7 @@ class Main {
 			String activation = Tool.randomActivationCode();
 			session.setAttribute("activation-code", activation);
 			
-			if (EmailSender.enableEmail) {
+			if (EmailSender.emailEnable) {
 				Email e = new Email();
 				e.sendActivationCode(email, activation);
 			} else {

@@ -21,11 +21,7 @@ public class EmailSender extends Thread {
 	String subject;
 	String content;
 	
-	public EmailSender() {
-		readConfiguration();
-	}
-	
-	public static boolean enableEmail  = false;
+	public static boolean emailEnable = false;
 	static String emailSender   = "";
 	static String emailSecurity = "";
 	static String emailServer   = "";
@@ -33,7 +29,7 @@ public class EmailSender extends Thread {
 	static String emailAddress  = "";
 	static String emailPassword = "";
 	
-	void readConfiguration() {
+	static {
 		String buffer = "";
 		try (FileReader fr = new FileReader("setup.txt")) {
 			while (true) {
@@ -45,20 +41,21 @@ public class EmailSender extends Thread {
 		
 		String [] lines = buffer.split("\n");
 		for (String s : lines) {
-			String [] tokens = s.trim().split("=");
-			if (tokens.length != 2) continue;
-			if (tokens[0] == null) continue;
-			if (tokens[1] == null) continue;
-			tokens[0] = tokens[0].trim();
-			tokens[1] = tokens[1].trim();
+			String [] list = s.trim().split("=");
+			if (list.length != 2) continue;
+			if (list[0] == null) continue;
+			if (list[1] == null) continue;
+			list[0] = list[0].trim();
+			list[1] = list[1].trim();
 
-			switch (tokens[0]) {
-				case "emailAddress"  -> emailAddress  = tokens[1];
-				case "emailPassword" -> emailPassword = tokens[1];
-				case "emailServer"   -> emailServer   = tokens[1];
-				case "emailSender"   -> emailSender   = tokens[1];
-				case "emailPort"     -> emailPort     = tokens[1];
-				case "emailSecurity" -> emailSecurity = tokens[1];
+			switch (list[0]) {
+				case "emailEnable"   -> emailEnable   = "true".equals(list[1]);
+				case "emailAddress"  -> emailAddress  = list[1];
+				case "emailPassword" -> emailPassword = list[1];
+				case "emailServer"   -> emailServer   = list[1];
+				case "emailSender"   -> emailSender   = list[1];
+				case "emailPort"     -> emailPort     = list[1];
+				case "emailSecurity" -> emailSecurity = list[1];
 			}
 		}
 	}
@@ -67,7 +64,6 @@ public class EmailSender extends Thread {
 	
 	@Override
 	public void run() {
-
 		try {
 			Properties detail = new Properties();
 			detail.put("mail.smtp.host",            emailServer);

@@ -112,14 +112,13 @@ body {
 	background-size: 100% auto;
 	
 	min-height: 100dvh;
-	/*
 	display: grid;
-	grid-template-rows: 10rem 1fr 10rem;
-	*/
-	
+	grid-template-rows: 3rem 1fr 10rem;
+	/*
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
+	*/
 }
 
 h1 { font-size: 2.00rem; font-weight: 400; margin: 0; }
@@ -270,13 +269,15 @@ input[type=file].active-file-upload {
 	border: .2rem dashed #666;
 	background: #eee;
 }
+header {
+	
+}
 main {
-	padding: 2rem 0;
+	
 }
 footer {
 	background: var(--footer-background);
 	color: white;
-	padding: 2rem 0;
 	min-height: 10rem;
 }
 footer a {
