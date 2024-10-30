@@ -29,6 +29,17 @@
 				String message = (String)session.getAttribute("message");
 				if (message == null) message = "";
 				session.removeAttribute("message");
+				
+				/*
+				String activationCode = "";
+				if (start.web.EmailSender.enableEmail == false) {
+					activationCode = session.getAttribute("activation-code");	
+				}
+				*/
+				String codeType = "text";
+				if (start.web.EmailSender.enableEmail == false) {
+					codeType = "hidden";
+				}
 			%>
 			<section class="container">
 				<form class="user-form" method="post">
@@ -44,6 +55,7 @@
 						autocomplete="off"
 						required
 						value="<%= code %>"
+						type="<%= codeType %>"
 						/>
 					
 					<input name="email"

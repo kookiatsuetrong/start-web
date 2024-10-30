@@ -9,6 +9,7 @@ import start.web.Context;
 import java.util.Map;
 import jakarta.json.JsonObject;
 import jakarta.servlet.http.HttpSession;
+import start.web.EmailSender;
 
 /*
 List of session variable
@@ -58,26 +59,32 @@ class Main {
 		session.removeAttribute("code");
 		String photoCode = context.getParameter("code");
 		
-		if (code.equals(photoCode)) {		
-			String email = context.getParameter("email");
-			User user = Storage.getUserByEmail(email);
-			session.setAttribute("email", email);
-
-			if (user == null) {
-				// This email is a new user
-				String activation = Tool.randomActivationCode();
-				session.setAttribute("activation-code", activation);
-				Email e = new Email();
-				e.sendActivationCode(email, activation);
-				return context.redirect("/user-register");
-			}
-
-			// This email is in the database, go to login
-			return context.redirect("/user-login");
+		if (code.equals(photoCode) == false) {		
+			session.setAttribute("message", "Invalid photo code");
+			return context.redirect("/user-check-email");	
 		}
 		
-		session.setAttribute("message", "Invalid photo code");
-		return context.redirect("/user-check-email");
+		String email = context.getParameter("email");
+		User user = Storage.getUserByEmail(email);
+		session.setAttribute("email", email);
+
+		if (user == null) {
+			// This email is a new user
+			String activation = Tool.randomActivationCode();
+			session.setAttribute("activation-code", activation);
+			
+			if (EmailSender.enableEmail) {
+				Email e = new Email();
+				e.sendActivationCode(email, activation);
+			} else {
+				session.setAttribute("code", activation);
+			}
+			
+			return context.redirect("/user-register");
+		}
+
+		// This email is in the database, go to login
+		return context.redirect("/user-login");
 	}
 	
 	static Object showRegisterPage(Context context) {

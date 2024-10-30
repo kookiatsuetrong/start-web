@@ -25,7 +25,7 @@ public class EmailSender extends Thread {
 		readConfiguration();
 	}
 	
-	public static boolean enableEmail  = true;
+	public static boolean enableEmail  = false;
 	static String emailSender   = "";
 	static String emailSecurity = "";
 	static String emailServer   = "";
