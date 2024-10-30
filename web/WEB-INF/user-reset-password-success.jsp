@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Log Out</title>
+		<title>Password Changed</title>
 		<link rel="stylesheet" href="/normalize.css" />
 		<link rel="stylesheet" href="/main.css" />
 	</head>
@@ -10,7 +10,7 @@
 		<main>
 			<section class="container">
 				<p>
-					You have been logged out.
+					Your password has been changed.
 				</p>
 				<a class="button" href="/user-check-email">Log In</a>
 			</section>

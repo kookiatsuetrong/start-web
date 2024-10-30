@@ -9,7 +9,7 @@ public class Context {
 	public HttpServletRequest request;
 	public HttpServletResponse response;
 	
-	public String forward(String s) {
+	public String render(String s) {
 		RequestDispatcher rd = request.getRequestDispatcher(s);
 		if (rd == null) return "Error";
 		

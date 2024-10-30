@@ -40,6 +40,22 @@ class Main {
 		server.handle("/user-login").via("POST")
 									.by(Main::checkPassword);
 		
+		server.handle("/user-reset-password")
+								.by(Main::showResetPasswordPage);
+		server.handle("/user-reset-password")
+								.via("POST")
+								.by(Main::checkResetPassword);
+		
+		server.handle("/user-reset-password-final")
+								.by(Main::showResetPasswordFinal);
+		
+		server.handle("/user-reset-password-final")
+								.via("POST")
+								.by(Main::resetPasswordFinal);
+		
+		server.handle("/user-reset-password-success")
+								.by(Main::showResetPasswordSuccess);
+		
 		server.handleError(Main::showError);
 	}
 	
@@ -49,7 +65,7 @@ class Main {
 		HttpSession s = context.request.getSession(true);
 		s.setAttribute("code", code);
 		s.setAttribute("photo-code", photoCode);
-		return context.forward("/WEB-INF/user-ask-email.jsp");
+		return context.render("/WEB-INF/user-ask-email.jsp");
 	}
 	
 	static Object checkEmail(Context context) {
@@ -93,7 +109,8 @@ class Main {
 		if (email == null) {
 			return context.redirect("/user-check-email");
 		}
-		return context.forward("/WEB-INF/user-register.jsp");
+		
+		return context.render("/WEB-INF/user-register.jsp");
 	}
 	
 	static Object createAccount(Context context) {
@@ -167,11 +184,16 @@ class Main {
 	}
 	
 	static Object showError(Context context) {
-		return context.forward("/WEB-INF/error.jsp");
+		return context.render("/WEB-INF/error.jsp");
 	}
 	
 	static Object showLogInPage(Context context) {
-		return context.forward("/WEB-INF/user-login.jsp");
+		HttpSession session = context.getSession(true);
+		String email = (String)session.getAttribute("email");
+		if (email == null) {
+			context.redirect("/user-check-email");
+		}
+		return context.render("/WEB-INF/user-login.jsp");
 	}
 	
 	static Object checkPassword(Context context) {
@@ -180,13 +202,15 @@ class Main {
 		
 		User user = Storage.checkPassword(email, password);
 		if (user == null) {
-			return context.redirect("/user-login");
-		} else {
 			var session = context.getSession(true);
-			session.setAttribute("email", email);
-			session.setAttribute("user", user);
-			return context.redirect("/user-profile");
+			session.setAttribute("message", "Incorrect password");
+			return context.redirect("/user-login");
 		}
+		
+		var session = context.getSession(true);
+		session.setAttribute("email", email);
+		session.setAttribute("user", user);
+		return context.redirect("/user-profile");
 	}
 	
 	static Object showProfilePage(Context context) {
@@ -195,7 +219,7 @@ class Main {
 		if (user == null) {
 			return context.redirect("/user-check-email");
 		} else {
-			return context.forward("/WEB-INF/user-profile.jsp");
+			return context.render("/WEB-INF/user-profile.jsp");
 		}
 	}
 	
@@ -204,7 +228,77 @@ class Main {
 		if (session != null) {
 			session.removeAttribute("email");
 			session.removeAttribute("user");
+			session.invalidate();
 		}
-		return context.forward("/WEB-INF/user-logout.jsp");
+		return context.render("/WEB-INF/user-logout.jsp");
 	}
+	
+	static Object showResetPasswordPage(Context context) {
+		String code = Tool.randomPhotoCode();
+		String photoCode = Tool.createPhotoCode(code);
+		HttpSession s = context.request.getSession(true);
+		s.setAttribute("code", code);
+		s.setAttribute("photo-code", photoCode);
+		return context.render("/WEB-INF/user-reset-password.jsp");
+	}
+	
+	static Object checkResetPassword(Context context) {
+		String email = context.getParameter("email");
+		String code  = context.getParameter("code");
+		if (code == null) code = "";
+		HttpSession session = context.request.getSession(true);
+		String value = (String)session.getAttribute("code");
+		
+		if (code.equals(value) == false) {
+			session.setAttribute("message", "Incorrect Code");
+			return context.redirect("/user-reset-password");
+		}
+		
+		User user = Storage.getUserByEmail(email);
+		if (user == null) {
+			session.setAttribute("message", "Email is not in the database");
+			return context.redirect("/user-reset-password");
+		}
+		
+		String activation = Tool.randomActivationCode();
+		session.setAttribute("activation-code", activation);
+		session.setAttribute("email", email);
+		
+		Email e = new Email();
+		e.sendResetCode(email, activation);
+
+		// TODO: if (EmailSender.emailEnabled) { }
+		
+		return context.redirect("/user-reset-password-final");
+	}
+
+	static Object showResetPasswordFinal(Context context) {
+		HttpSession session = context.request.getSession(true);
+		String activation = (String)session.getAttribute("activation-code");
+		String email = (String)session.getAttribute("email");
+		if (activation == null || email == null) {
+			return context.redirect("/user-reset-password");
+		}
+		return context.render("/WEB-INF/user-reset-password-final.jsp");
+	}
+	
+	static Object resetPasswordFinal(Context context) {
+		HttpSession session = context.request.getSession(true);
+		String email = (String)session.getAttribute("email");
+		String code  = context.getParameter("activation-code");
+		if (code == null) code = "";
+		
+		String value = (String)session.getAttribute("activation-code");
+		if (code.equals(value) == false) {
+			session.setAttribute("message", "Incorrect reset code");
+			return context.redirect("/user-reset-password-final");
+		}
+		// TODO: Storage.resetPassword();
+		return context.redirect("/user-reset-password-success");
+	}
+	
+	static Object showResetPasswordSuccess(Context context) {
+		return context.render("/WEB-INF/user-reset-password-success.jsp");
+	}
+	
 }

@@ -10,9 +10,9 @@
 		<main>
 			<%
 				String email = (String)session.getAttribute("email");
-				if (email == null) {
-					email = "";
-				}
+				if (email == null) email = "";
+				String message = (String)session.getAttribute("message");
+				if (message == null) message = "";
 			%>
 			<section class="container">
 				<form class="user-form" method="post">
@@ -29,9 +29,19 @@
 						   autofocus
 						   />
 					<button>Log In</button>
+					<%= message %>
+					<p class="bottom-menu">
+						<a href="/user-reset-password">Reset Password</a>
+					</p>
 				</form>
 			</section>
 		</main>
 		<footer></footer>
+		<style>
+			.bottom-menu {
+				border-top: .1rem solid rgba(0,0,0,0.05);
+				text-align: right;
+			}
+		</style>
 	</body>
 </html>

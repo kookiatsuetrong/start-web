@@ -11,4 +11,13 @@ public class Email {
 		es.start();
 	}
 	
+	public void sendResetCode(String target, String code) {
+		EmailSender es = new EmailSender();
+		es.target  = target;
+		es.subject = "Reset Code";
+		es.content = "The reset code is <b>" + 
+						code + "</b>";
+		es.start();
+	}
+	
 }
