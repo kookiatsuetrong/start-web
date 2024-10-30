@@ -15,7 +15,7 @@
 		</init-param>
 		<init-param>
 			<param-name>controller-2</param-name>
-			<param-value>Another</param-value>
+			<param-value>Sample</param-value>
 		</init-param>
 	</servlet>
 	<servlet-mapping>

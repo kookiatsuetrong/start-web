@@ -215,6 +215,9 @@ public class Server extends HttpServlet {
 			result = ((ContextHandler)showError).handle(context);
 		}
 		
+		// TODO: Add MapHandler error message
+		// TODO: Add JsonHandler error message
+		
 		if (handler instanceof SimpleHandler) {
 			result = ((SimpleHandler)handler).handle();
 		}

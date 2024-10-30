@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<%@page import="start.web.User"%><!DOCTYPE html>
 <html>
 	<head>
 		<title>Profile</title>
@@ -10,11 +10,9 @@
 		<main>
 			<section class="container">
 				<%
-				// User user = (User)session.getAttribute("user");
-				String email = (String)session.getAttribute("email");
-					
+				User user = (User)session.getAttribute("user");
 				%>
-				<p>Email: <%= email %></p>
+				<p>Email: <%= user.email %></p>
 				
 				<a href="/user-logout" class="button">Log Out</a>
 			</section>

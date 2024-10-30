@@ -1,3 +1,4 @@
+import start.web.User;
 import java.io.FileReader;
 import start.web.Server;
 import start.web.Context;
@@ -15,9 +16,9 @@ message         ---> Error message
 */
 
 class Main {
+	public static boolean enableEmail = false;
 	
 	void start() {
-		readConfiguration();
 		var server = Server.getInstance();
 		
 		server.handle("/user-check-email")  .by(Main::askEmail);
@@ -36,44 +37,6 @@ class Main {
 									.by(Main::checkPassword);
 		
 		server.handleError(Main::showError);
-	}
-	
-	static boolean enableEmail  = true;
-	static String emailSender   = "";
-	static String emailSecurity = "";
-	static String emailServer   = "";
-	static String emailPort     = "";
-	static String emailAddress  = "";
-	static String emailPassword = "";
-	
-	void readConfiguration() {
-		String buffer = "";
-		try (FileReader fr = new FileReader("setup.txt")) {
-			while (true) {
-				int k = fr.read();
-				if (k == -1) break;
-				buffer += (char)k;
-			}
-		} catch (Exception e) { }
-		
-		String [] lines = buffer.split("\n");
-		for (String s : lines) {
-			String [] tokens = s.trim().split("=");
-			if (tokens.length != 2) continue;
-			if (tokens[0] == null) continue;
-			if (tokens[1] == null) continue;
-			tokens[0] = tokens[0].trim();
-			tokens[1] = tokens[1].trim();
-
-			switch (tokens[0]) {
-				case "emailAddress"  -> Main.emailAddress  = tokens[1];
-				case "emailPassword" -> Main.emailPassword = tokens[1];
-				case "emailServer"   -> Main.emailServer   = tokens[1];
-				case "emailSender"   -> Main.emailSender   = tokens[1];
-				case "emailPort"     -> Main.emailPort     = tokens[1];
-				case "emailSecurity" -> Main.emailSecurity = tokens[1];
-			}
-		}	
 	}
 	
 	static Object askEmail(Context context) {
