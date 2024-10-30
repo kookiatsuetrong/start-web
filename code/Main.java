@@ -6,7 +6,6 @@ import start.web.User;
 import start.web.Server;
 import start.web.Context;
 
-import java.io.FileReader;
 import java.util.Map;
 import jakarta.json.JsonObject;
 import jakarta.servlet.http.HttpSession;
@@ -21,7 +20,6 @@ message         ---> Error message
 */
 
 class Main {
-	public static boolean enableEmail = false;
 	
 	void start() {
 		var server = Server.getInstance();
