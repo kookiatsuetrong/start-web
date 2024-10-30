@@ -1,21 +1,28 @@
 # framework
 Java framework for web application and web service
 
+```
+1. Clone the project
+   git clone https://github.com/kookiatsuetrong/start-web
 
+2. Create the configuration file (setup.txt)
+   echo "emailEnabled = false" > setup.txt
 
+3. Execute database schema (schema.sql)
+   sudo mysql < schema.sql
 
+4. Build the system
+   bash build.sh
+
+5. Open web browser to http://localhost:7300
+```
 
 ### Configuration file
-The configuration is the file "setup.txt" file.
 
-This program needs an SMTP service,
-but it is not easy to setup. So the configuration
-file (setup.txt) can disable this feature
-by writing "emailEnable = false".
+The configuration is the file "setup.txt".
 
-Sample of configuration file.
 ```
-emailEnable   = true
+emailEnabled  = true
 emailPassword = Hello12345
 emailAddress  = support@sample.com
 emailServer   = smtp.sample.com
@@ -24,6 +31,8 @@ emailPort     = 587
 emailSecurity = TLSv1.2
 ```
 
+The transaction email can be disable by
+writing "emailEnabled = false".
 
 ### Forward versus Redirect
 

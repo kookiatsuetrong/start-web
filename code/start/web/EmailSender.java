@@ -21,7 +21,7 @@ public class EmailSender extends Thread {
 	String subject;
 	String content;
 	
-	public static boolean emailEnable = false;
+	public static boolean emailEnabled = false;
 	static String emailSender   = "";
 	static String emailSecurity = "";
 	static String emailServer   = "";
@@ -49,7 +49,7 @@ public class EmailSender extends Thread {
 			list[1] = list[1].trim();
 
 			switch (list[0]) {
-				case "emailEnable"   -> emailEnable   = "true".equals(list[1]);
+				case "emailEnabled"  -> emailEnabled  = "true".equals(list[1]);
 				case "emailAddress"  -> emailAddress  = list[1];
 				case "emailPassword" -> emailPassword = list[1];
 				case "emailServer"   -> emailServer   = list[1];

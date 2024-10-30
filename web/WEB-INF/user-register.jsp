@@ -30,21 +30,15 @@
 				if (message == null) message = "";
 				session.removeAttribute("message");
 				
-				/*
-				String activationCode = "";
-				if (start.web.EmailSender.enableEmail == false) {
-					activationCode = session.getAttribute("activation-code");	
-				}
-				*/
 				String codeType = "text";
-				if (start.web.EmailSender.emailEnable == false) {
+				if (start.web.EmailSender.emailEnabled == false) {
 					codeType = "hidden";
 				}
 			%>
 			<section class="container">
 				<form class="user-form" method="post">
 					<h3>Create New Account</h3>
-					<% if (start.web.EmailSender.emailEnable) { %>
+					<% if (start.web.EmailSender.emailEnabled) { %>
 					<p>
 						The activation code has been
 						sent to the given email.
