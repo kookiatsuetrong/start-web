@@ -42,7 +42,6 @@
 			</section>
 		</main>
 		
-		<footer></footer>
 		<style>
 			.duo {
 				display: grid;
@@ -56,6 +55,8 @@
 				border-radius: .35rem;
 			}
 		</style>
+		
+		<%@include file="/WEB-INF/footer.jsp" %>
 	</body>
 </html>
 

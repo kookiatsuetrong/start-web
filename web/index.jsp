@@ -18,6 +18,6 @@
 			<a class="button" href="/user-check-email">Log In</a>
 			</section>
 		</main>
-		<footer></footer>
+		<%@include file="/WEB-INF/footer.jsp" %>
 	</body>
 </html>

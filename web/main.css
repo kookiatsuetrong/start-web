@@ -113,7 +113,7 @@ body {
 	
 	min-height: 100dvh;
 	display: grid;
-	grid-template-rows: 3rem 1fr 10rem;
+	grid-template-rows: auto 1fr auto;
 	/*
 	display: flex;
 	flex-direction: column;
@@ -270,10 +270,9 @@ input[type=file].active-file-upload {
 	background: #eee;
 }
 header {
-	
+	min-height: 2rem;
 }
 main {
-	
 }
 footer {
 	background: var(--footer-background);

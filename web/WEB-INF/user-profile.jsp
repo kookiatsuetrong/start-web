@@ -17,7 +17,8 @@
 				<a href="/user-logout" class="button">Log Out</a>
 			</section>
 		</main>
-		<footer></footer>
+		
+		<%@include file="/WEB-INF/footer.jsp" %>
 	</body>
 </html>
 
