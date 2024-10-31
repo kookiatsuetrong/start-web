@@ -40,20 +40,20 @@ class Main {
 		server.handle("/user-login").via("POST")
 									.by(Main::checkPassword);
 		
-		server.handle("/user-reset-password")
+		server.handle("/reset-password")
 								.by(Main::showResetPasswordPage);
-		server.handle("/user-reset-password")
+		server.handle("/reset-password")
 								.via("POST")
 								.by(Main::checkResetPassword);
 		
-		server.handle("/user-reset-password-final")
-								.by(Main::showResetPasswordFinal);
+		server.handle("/reset-password-code")
+								.by(Main::showResetPasswordCode);
 		
-		server.handle("/user-reset-password-final")
+		server.handle("/reset-password-code")
 								.via("POST")
-								.by(Main::resetPasswordFinal);
+								.by(Main::resetPasswordCode);
 		
-		server.handle("/user-reset-password-success")
+		server.handle("/reset-password-success")
 								.by(Main::showResetPasswordSuccess);
 		
 		server.handleError(Main::showError);
@@ -239,7 +239,7 @@ class Main {
 		HttpSession s = context.request.getSession(true);
 		s.setAttribute("code", code);
 		s.setAttribute("photo-code", photoCode);
-		return context.render("/WEB-INF/user-reset-password.jsp");
+		return context.render("/WEB-INF/reset-password.jsp");
 	}
 	
 	static Object checkResetPassword(Context context) {
@@ -251,13 +251,13 @@ class Main {
 		
 		if (code.equals(value) == false) {
 			session.setAttribute("message", "Incorrect Code");
-			return context.redirect("/user-reset-password");
+			return context.redirect("/reset-password");
 		}
 		
 		User user = Storage.getUserByEmail(email);
 		if (user == null) {
 			session.setAttribute("message", "Email is not in the database");
-			return context.redirect("/user-reset-password");
+			return context.redirect("/reset-password");
 		}
 		
 		String activation = Tool.randomActivationCode();
@@ -269,20 +269,20 @@ class Main {
 
 		// TODO: if (EmailSender.emailEnabled) { }
 		
-		return context.redirect("/user-reset-password-final");
+		return context.redirect("/reset-password-code");
 	}
 
-	static Object showResetPasswordFinal(Context context) {
+	static Object showResetPasswordCode(Context context) {
 		HttpSession session = context.request.getSession(true);
 		String activation = (String)session.getAttribute("activation-code");
 		String email = (String)session.getAttribute("email");
 		if (activation == null || email == null) {
-			return context.redirect("/user-reset-password");
+			return context.redirect("/reset-password");
 		}
-		return context.render("/WEB-INF/user-reset-password-final.jsp");
+		return context.render("/WEB-INF/reset-password-code.jsp");
 	}
 	
-	static Object resetPasswordFinal(Context context) {
+	static Object resetPasswordCode(Context context) {
 		HttpSession session = context.request.getSession(true);
 		String email = (String)session.getAttribute("email");
 		String code  = context.getParameter("activation-code");
@@ -293,6 +293,9 @@ class Main {
 			session.setAttribute("message", "Incorrect reset code");
 			return context.redirect("/user-reset-password-final");
 		}
+		
+		// TODO: Validate password format here
+		
 		// TODO: Storage.resetPassword();
 		return context.redirect("/user-reset-password-success");
 	}

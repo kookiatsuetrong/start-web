@@ -32,7 +32,9 @@
 						<img src="data:image/png;base64, <%= photoCode %>" />
 						<input name="code" 
 							placeholder="4-Digit Code" 
-							required />
+							required 
+							autocomplete="off"
+							/>
 					</span>
 					<button>Get Reset Code</button>
 					<%= message %>
