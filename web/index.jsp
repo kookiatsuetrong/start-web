@@ -9,13 +9,7 @@
 		<header></header>
 		<main>
 			<section class="container">
-			<%
-				out.println("This is a JSP page");
-			%>
-			<br/>
-			<br/>
-			<a class="button" href="/user-check-email">Register</a>
-			<a class="button" href="/user-check-email">Log In</a>
+
 			</section>
 		</main>
 		<%@include file="/WEB-INF/footer.jsp" %>

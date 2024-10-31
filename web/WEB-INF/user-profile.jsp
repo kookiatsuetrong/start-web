@@ -12,9 +12,7 @@
 				<%
 				User user = (User)session.getAttribute("user");
 				%>
-				<p>Email: <%= user.email %></p>
-				
-				<a href="/user-logout" class="button">Log Out</a>
+				<p>Email: <%= user.email %></p>				
 			</section>
 		</main>
 		

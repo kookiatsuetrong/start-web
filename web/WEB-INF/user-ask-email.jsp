@@ -10,7 +10,7 @@
 		<main>
 			<section class="container">
 				<form class="user-form" method="post">
-					<h3>Register or Log In</h3>
+					<h3>Create Account or Log In</h3>
 					<input name="email" 
 						   placeholder="Your Email" 
 						   autofocus 
@@ -33,7 +33,7 @@
 							autocomplete="off"
 							/>
 					</span>
-					<button>Register / Log In</button>
+					<button>Next</button>
 					<%
 					out.print(message); 
 					session.removeAttribute("message");

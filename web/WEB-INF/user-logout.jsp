@@ -12,7 +12,6 @@
 				<p>
 					You have been logged out.
 				</p>
-				<a class="button" href="/user-check-email">Log In</a>
 			</section>
 		</main>
 		

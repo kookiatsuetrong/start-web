@@ -1,4 +1,7 @@
-
+<%@page import="start.web.User" %>
+<%
+User footerUser = (User)session.getAttribute("user");
+%>
 <footer>
 	<section class="container">
 		<p>
@@ -7,11 +10,21 @@
 			<a href="/">Contact</a>
 		</p>
 
+		<% if (footerUser == null) {       %>
 		<p>
 			<a href="/user-check-email">Create Account</a>
 			<a href="/user-check-email">Log In</a>
 			<a href="/reset-password">Reset Password</a>
 		</p>
+		<% } %>
+		
+		
+		<% if (footerUser != null) {       %>
+		<p>
+			<a href="/user-profile">Profile</a>
+			<a href="/user-logout">Log Out</a>
+		</p>
+		<% } %>
 
 		<p>
 			The quick brown fox jumps over a lazy dog.
