@@ -4,6 +4,7 @@ Java framework for web application and web service
 ```
 1. Clone the project
    git clone https://github.com/kookiatsuetrong/start-web
+   cd start-web
 
 2. Create the configuration file (setup.txt)
    echo "emailEnabled = false" > setup.txt
