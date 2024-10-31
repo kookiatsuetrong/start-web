@@ -13,6 +13,7 @@ import start.web.EmailSender;
 
 /*
 List of session variable
+user            ---> Detail of current user
 email           ---> Email for redirecting mechanism
 code            ---> Verification Code
 photo-code      ---> Verification Code (BASE64)
@@ -60,16 +61,24 @@ class Main {
 	}
 	
 	static Object askEmail(Context context) {
+		HttpSession session = context.getSession(true);
+		User user = (User)session.getAttribute("user");
+		if (user != null) {
+			return context.redirect("/user-profile");
+		}
 		String code = Tool.randomPhotoCode();
 		String photoCode = Tool.createPhotoCode(code);
-		HttpSession s = context.request.getSession(true);
-		s.setAttribute("code", code);
-		s.setAttribute("photo-code", photoCode);
+		session.setAttribute("code", code);
+		session.setAttribute("photo-code", photoCode);
 		return context.render("/WEB-INF/user-ask-email.jsp");
 	}
 	
 	static Object checkEmail(Context context) {
 		HttpSession session = context.getSession(true);
+		User user = (User)session.getAttribute("user");
+		if (user != null) {
+			return context.redirect("/user-profile");
+		}
 		String code = (String)session.getAttribute("code");
 		if (code == null) code = "";
 		session.removeAttribute("code");
@@ -81,7 +90,7 @@ class Main {
 		}
 		
 		String email = context.getParameter("email");
-		User user = Storage.getUserByEmail(email);
+		user = Storage.getUserByEmail(email);
 		session.setAttribute("email", email);
 
 		if (user == null) {
@@ -105,6 +114,11 @@ class Main {
 	
 	static Object showRegisterPage(Context context) {
 		HttpSession session = context.getSession(true);
+		User user = (User)session.getAttribute("user");
+		if (user != null) {
+			return context.redirect("/user-profile");
+		}
+		
 		String email = (String)session.getAttribute("email");
 		if (email == null) {
 			return context.redirect("/user-check-email");
@@ -115,6 +129,10 @@ class Main {
 	
 	static Object createAccount(Context context) {
 		HttpSession session = context.getSession(true);
+		User user = (User)session.getAttribute("user");
+		if (user != null) {
+			return context.redirect("/user-profile");
+		}
 		String activation = (String)session.getAttribute("activation-code");
 		
 		String code      = context.getParameter("activation-code");
@@ -177,7 +195,7 @@ class Main {
 		session.removeAttribute("last-name");
 		session.removeAttribute("activation-code");
 		Storage.createAccount(email, password, firstName, lastName);
-		User user = Storage.checkPassword(email, password);
+		user = Storage.checkPassword(email, password);
 		
 		session.setAttribute("user", user);
 		return context.redirect("/user-profile");
@@ -189,6 +207,10 @@ class Main {
 	
 	static Object showLogInPage(Context context) {
 		HttpSession session = context.getSession(true);
+		User user = (User)session.getAttribute("user");
+		if (user != null) {
+			return context.redirect("/user-profile");
+		}
 		String email = (String)session.getAttribute("email");
 		if (email == null) {
 			context.redirect("/user-check-email");
@@ -197,17 +219,20 @@ class Main {
 	}
 	
 	static Object checkPassword(Context context) {
+		HttpSession session = context.getSession(true);
+		User user = (User)session.getAttribute("user");
+		if (user != null) {
+			return context.redirect("/user-profile");
+		}
 		var email    = context.getParameter("email");
 		var password = context.getParameter("password");
 		
-		User user = Storage.checkPassword(email, password);
+		user = Storage.checkPassword(email, password);
 		if (user == null) {
-			var session = context.getSession(true);
 			session.setAttribute("message", "Incorrect password");
 			return context.redirect("/user-login");
 		}
 		
-		var session = context.getSession(true);
 		session.setAttribute("email", email);
 		session.setAttribute("user", user);
 		return context.redirect("/user-profile");
@@ -234,19 +259,28 @@ class Main {
 	}
 	
 	static Object showResetPasswordPage(Context context) {
+		HttpSession session = context.getSession(true);
+		User user = (User)session.getAttribute("user");
+		if (user != null) {
+			return context.redirect("/user-profile");
+		}
 		String code = Tool.randomPhotoCode();
 		String photoCode = Tool.createPhotoCode(code);
-		HttpSession s = context.request.getSession(true);
+		HttpSession s = context.getSession(true);
 		s.setAttribute("code", code);
 		s.setAttribute("photo-code", photoCode);
 		return context.render("/WEB-INF/reset-password.jsp");
 	}
 	
 	static Object checkResetPassword(Context context) {
+		HttpSession session = context.getSession(true);
+		User user = (User)session.getAttribute("user");
+		if (user != null) {
+			return context.redirect("/user-profile");
+		}
 		String email = context.getParameter("email");
 		String code  = context.getParameter("code");
 		if (code == null) code = "";
-		HttpSession session = context.request.getSession(true);
 		String value = (String)session.getAttribute("code");
 		
 		if (code.equals(value) == false) {
@@ -254,7 +288,7 @@ class Main {
 			return context.redirect("/reset-password");
 		}
 		
-		User user = Storage.getUserByEmail(email);
+		user = Storage.getUserByEmail(email);
 		if (user == null) {
 			session.setAttribute("message", "Email is not in the database");
 			return context.redirect("/reset-password");
@@ -273,7 +307,11 @@ class Main {
 	}
 
 	static Object showResetPasswordCode(Context context) {
-		HttpSession session = context.request.getSession(true);
+		HttpSession session = context.getSession(true);
+		User user = (User)session.getAttribute("user");
+		if (user != null) {
+			return context.redirect("/user-profile");
+		}
 		String activation = (String)session.getAttribute("activation-code");
 		String email = (String)session.getAttribute("email");
 		if (activation == null || email == null) {
@@ -283,7 +321,11 @@ class Main {
 	}
 	
 	static Object resetPasswordCode(Context context) {
-		HttpSession session = context.request.getSession(true);
+		HttpSession session = context.getSession(true);
+		User user = (User)session.getAttribute("user");
+		if (user != null) {
+			return context.redirect("/user-profile");
+		}
 		String email = (String)session.getAttribute("email");
 		String code  = context.getParameter("activation-code");
 		if (code == null) code = "";
@@ -301,6 +343,11 @@ class Main {
 	}
 	
 	static Object showResetPasswordSuccess(Context context) {
+		HttpSession session = context.getSession(true);
+		User user = (User)session.getAttribute("user");
+		if (user != null) {
+			return context.redirect("/user-profile");
+		}
 		return context.render("/WEB-INF/user-reset-password-success.jsp");
 	}
 	
