@@ -65,4 +65,19 @@ public class Storage {
 		return result;
 	}
 	
+	public static boolean
+	resetPassword(String email, String password) {
+		boolean result = false;
+		var sql =   " update users set password = sha2(?, 512)  " +
+					" where email = ?                           ";
+		try {
+			var cn = DriverManager.getConnection(source);
+			var ps = cn.prepareStatement(sql);
+			ps.setString(1, password);
+			ps.setString(2, email);
+			result = ps.execute();
+			ps.close(); cn.close();
+		} catch (Exception e) { }
+		return result;
+	}
 }

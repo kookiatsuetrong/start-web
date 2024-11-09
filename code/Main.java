@@ -54,8 +54,13 @@ class Main {
 								.via("POST")
 								.by(Main::resetPasswordCode);
 		
-		server.handle("/reset-password-success")
-								.by(Main::showResetPasswordSuccess);
+		server.handle("/reset-password-final")
+								.by(Main::showResetPasswordFinal);
+		
+		server.handle("/contact").by(Main::showContactPage);
+		
+		server.handle("/contact").via("POST")
+								.by(Main::saveContactDetail);
 		
 		server.handleError(Main::showError);
 	}
@@ -94,7 +99,7 @@ class Main {
 		session.setAttribute("email", email);
 
 		if (user == null) {
-			// This email is a new user
+			// This email is a new email, create new account
 			String activation = Tool.randomActivationCode();
 			session.setAttribute("activation-code", activation);
 			
@@ -184,7 +189,7 @@ class Main {
 		}
 		
 		if (code.equals(activation) == false) {
-			session.setAttribute("message", "Invalid activation code");
+			session.setAttribute("message", "Incorrect activation code");
 			return context.redirect("/user-register");
 		}
 		
@@ -242,10 +247,12 @@ class Main {
 		var session = context.getSession(true);
 		User user = (User)session.getAttribute("user");
 		if (user == null) {
+			// ask user to login before continue
 			return context.redirect("/user-check-email");
-		} else {
-			return context.render("/WEB-INF/user-profile.jsp");
 		}
+		
+		// display user profile page
+		return context.render("/WEB-INF/user-profile.jsp");
 	}
 	
 	static Object showLogOutPage(Context context) {
@@ -326,6 +333,7 @@ class Main {
 		if (user != null) {
 			return context.redirect("/user-profile");
 		}
+		
 		String email = (String)session.getAttribute("email");
 		String code  = context.getParameter("activation-code");
 		if (code == null) code = "";
@@ -333,22 +341,60 @@ class Main {
 		String value = (String)session.getAttribute("activation-code");
 		if (code.equals(value) == false) {
 			session.setAttribute("message", "Incorrect reset code");
-			return context.redirect("/user-reset-password-final");
+			return context.redirect("/reset-password-final");
 		}
 		
-		// TODO: Validate password format here
+		String password = context.getParameter("password");
+		String confirm = context.getParameter("confirm");
 		
-		// TODO: Storage.resetPassword();
-		return context.redirect("/user-reset-password-success");
+		if (password == null || password.length() < 8) {
+			session.setAttribute("message", 
+						"Password is at least 8 characters");
+			return context.redirect("/reset-password-final");
+		}
+		
+		if (password.equals(confirm) == false) {
+			session.setAttribute("message", 
+						"Password and confirm must be identical");
+			return context.redirect("/reset-password-final");
+		}
+		
+		if (password.matches(".*[0-9].*") == false) {
+			session.setAttribute("message", "Password must have a number");
+			return context.redirect("/reset-password-final");
+		}
+		
+		if (password.matches(".*[A-Z].*") == false) {
+			session.setAttribute("message", "Password must have an uppercase");
+			return context.redirect("/reset-password-final");
+		}
+		
+		if (password.matches(".*[a-z].*") == false) {
+			session.setAttribute("message", "Password must have a lowercase");
+			return context.redirect("/reset-password-final");
+		}
+		
+		Storage.resetPassword(email, password);
+		
+		session.setAttribute("message", "Your password has been reset");
+		return context.redirect("/reset-password-final");
 	}
 	
-	static Object showResetPasswordSuccess(Context context) {
+	static Object showResetPasswordFinal(Context context) {
 		HttpSession session = context.getSession(true);
 		User user = (User)session.getAttribute("user");
 		if (user != null) {
 			return context.redirect("/user-profile");
 		}
-		return context.render("/WEB-INF/user-reset-password-success.jsp");
+		return context.render("/WEB-INF/reset-password-final.jsp");
 	}
 	
+	
+	static Object showContactPage(Context context) {
+		return null;
+	}
+		
+	static Object saveContactDetail(Context context) {
+		return null;
+	}
 }

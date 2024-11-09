@@ -9,8 +9,14 @@
 		<header></header>
 		<main>
 			<section class="container">
+				<%
+				String message = (String)session.getAttribute("message");
+				if (message == null) message = "";
+				session.removeAttribute("message");				
+				%>
+				
 				<p>
-					Your password has been changed.
+				<%= message %>
 				</p>
 				<a class="button" href="/user-check-email">Log In</a>
 			</section>
