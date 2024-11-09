@@ -12,11 +12,12 @@
 				<form class="user-form" method="post">
 					<h3>Create Account or Log In</h3>
 					<input name="email" 
-						   placeholder="Your Email" 
-						   autofocus 
-						   required
-						   autocomplete="off"
-						   />
+						placeholder="Your Email" 
+						autofocus 
+						required
+						type="email"
+						autocomplete="off"
+						/>
 					<%
 					String message   = (String)session
 										.getAttribute("message");
@@ -29,7 +30,8 @@
 						<img src="data:image/png;base64, <%= photoCode %>" />
 						<input name="code" 
 							placeholder="4-Digit Code" 
-							required 
+							required
+							type="number"
 							autocomplete="off"
 							/>
 					</span>

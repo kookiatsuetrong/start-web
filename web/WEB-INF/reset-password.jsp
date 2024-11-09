@@ -12,11 +12,12 @@
 				<form class="user-form" method="post">
 					<h3>Reset Password</h3>
 					<input name="email" 
-						   placeholder="Your Email" 
-						   autofocus 
-						   required
-						   autocomplete="off"
-						   />
+						placeholder="Your Email" 
+						type="email"
+						autofocus 
+						required
+						autocomplete="off"
+						/>
 					<%
 					String message = (String)session
 										.getAttribute("message");
@@ -31,7 +32,8 @@
 					<span class="duo">
 						<img src="data:image/png;base64, <%= photoCode %>" />
 						<input name="code" 
-							placeholder="4-Digit Code" 
+							placeholder="4-Digit Code"
+							type="number"
 							required 
 							autocomplete="off"
 							/>

@@ -9,20 +9,21 @@
 		<header></header>
 		<main>
 			<%
-				String email = (String)session.getAttribute("email");
-				if (email == null) email = "";
-				String message = (String)session.getAttribute("message");
-				if (message == null) message = "";
+			String email = (String)session.getAttribute("email");
+			if (email == null) email = "";
+			String message = (String)session.getAttribute("message");
+			if (message == null) message = "";
 			%>
 			<section class="container">
 				<form class="user-form" method="post">
 					<h3>Log In</h3>
 					<input name="email" 
-						   placeholder="Your Email" 
-						   autocomplete="off"
-						   readonly
-						   value="<%= email %>"
-						   />
+						placeholder="Your Email" 
+						autocomplete="off"
+						type="email"
+						readonly
+						value="<%= email %>"
+						/>
 					<input name="password" 
 						   type="password"
 						   placeholder="Your Password"

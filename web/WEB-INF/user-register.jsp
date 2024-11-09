@@ -9,31 +9,31 @@
 		<header></header>
 		<main>
 			<%
-				String code      = (String)session.getAttribute("code");
-				String email     = (String)session.getAttribute("email");
-				String password  = (String)session.getAttribute("password");
-				String firstName = (String)session.getAttribute("first-name");
-				String lastName  = (String)session.getAttribute("last-name");
+			String code      = (String)session.getAttribute("code");
+			String email     = (String)session.getAttribute("email");
+			String password  = (String)session.getAttribute("password");
+			String firstName = (String)session.getAttribute("first-name");
+			String lastName  = (String)session.getAttribute("last-name");
 
-				if (code      == null) code      = "";
-				if (email     == null) email     = "";
-				if (password  == null) password  = "";
-				if (firstName == null) firstName = "";
-				if (lastName  == null) lastName  = "";
-				session.removeAttribute("code");
-				session.removeAttribute("email");
-				session.removeAttribute("password");
-				session.removeAttribute("first-name");
-				session.removeAttribute("last-name");
-				
-				String message = (String)session.getAttribute("message");
-				if (message == null) message = "";
-				session.removeAttribute("message");
-				
-				String codeType = "text";
-				if (start.web.EmailSender.emailEnabled == false) {
-					codeType = "hidden";
-				}
+			if (code      == null) code      = "";
+			if (email     == null) email     = "";
+			if (password  == null) password  = "";
+			if (firstName == null) firstName = "";
+			if (lastName  == null) lastName  = "";
+			session.removeAttribute("code");
+			session.removeAttribute("email");
+			session.removeAttribute("password");
+			session.removeAttribute("first-name");
+			session.removeAttribute("last-name");
+
+			String message = (String)session.getAttribute("message");
+			if (message == null) message = "";
+			session.removeAttribute("message");
+
+			String codeType = "number";
+			if (start.web.EmailSender.emailEnabled == false) {
+				codeType = "hidden";
+			}
 			%>
 			<section class="container">
 				<form class="user-form" method="post">
@@ -43,7 +43,7 @@
 						The activation code has been
 						sent to the given email.
 					</p>
-					<% }                                        %>
+					<% }                                         %>
 					
 					<input name="activation-code"
 						placeholder="Activation Code"
@@ -57,6 +57,7 @@
 					<input name="email"
 						placeholder="Your Email" 
 						autocomplete="off"
+						type="email"
 						readonly
 						value="<%= email %>"
 						/>
