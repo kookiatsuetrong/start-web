@@ -35,6 +35,21 @@ emailSecurity = TLSv1.2
 The transaction email can be disable by
 writing "emailEnabled = false".
 
+
+### Sample Code
+```java
+import start.web.Server;
+
+class Sample {
+	
+	void start() {
+		var server = Server.getInstance();
+		server.handle("/another", () -> "Another Web Page");
+	}
+	
+}
+```
+
 ### Forward versus Redirect
 
 ```
