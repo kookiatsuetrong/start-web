@@ -44,7 +44,7 @@ The style of each part can be written inside each part.
 	.
 	<style>
 
-	</tyle>
+	</style>
 </header>
 ```
 
@@ -57,7 +57,7 @@ The style of each part can be written inside each part.
 	.
 	<style>
 
-	</tyle>
+	</style>
 </main>
 ```
 
