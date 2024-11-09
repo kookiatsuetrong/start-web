@@ -38,10 +38,20 @@
 			<section class="container">
 				<form class="user-form" method="post">
 					<h3>Create New Account</h3>
+					
+					<input name="email"
+						placeholder="Your Email" 
+						autocomplete="off"
+						type="email"
+						readonly
+						value="<%= email %>"
+						/>
+					
+					
 					<% if (start.web.EmailSender.emailEnabled) { %>
 					<p>
 						The activation code has been
-						sent to the given email.
+						sent to the above email.
 					</p>
 					<% }                                         %>
 					
@@ -52,14 +62,6 @@
 						required
 						value="<%= code %>"
 						type="<%= codeType %>"
-						/>
-					
-					<input name="email"
-						placeholder="Your Email" 
-						autocomplete="off"
-						type="email"
-						readonly
-						value="<%= email %>"
 						/>
 					
 					<input name="password" 

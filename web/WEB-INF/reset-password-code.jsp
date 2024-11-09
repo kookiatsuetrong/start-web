@@ -20,23 +20,25 @@
 				<form class="user-form" method="post">
 					<h3>Reset Password</h3>
 					
+					<input name="email"
+						placeholder="Your Email" 
+						type="email"
+						autocomplete="off"
+						readonly
+						value="<%= email %>"
+						/>
+					
 					<p>
 						The reset code has been
-						sent to the given email.
+						sent to the above email.
 					</p>
 					
 					<input name="activation-code"
 						placeholder="Reset Code"
+						type="number"
 						autofocus
 						autocomplete="off"
 						required
-						/>
-					
-					<input name="email"
-						placeholder="Your Email" 
-						autocomplete="off"
-						readonly
-						value="<%= email %>"
 						/>
 					
 					<input name="password" 

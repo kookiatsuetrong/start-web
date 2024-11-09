@@ -1,8 +1,5 @@
 ## Coding Style
 
-
-
-
 HTML tag contains two parts: head and body.
 ```html
 <!DOCTYPE html>
@@ -61,7 +58,7 @@ The style of each part can be written inside each part.
 </main>
 ```
 
-```
+```html
 <footer>
 	.
 	.
