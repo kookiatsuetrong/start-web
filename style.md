@@ -3,7 +3,7 @@
 
 
 
-HTML tag contains two parts, head and body.
+HTML tag contains two parts: head and body.
 ```html
 <!DOCTYPE html>
 <html>
@@ -39,7 +39,9 @@ The style of each part can be written inside each part.
 
 ```html
 <header>
-
+	.
+	.
+	.
 	<style>
 
 	</tyle>
@@ -48,21 +50,25 @@ The style of each part can be written inside each part.
 
 
 ```html
-	<main>
+<main>
 
-		<style>
+	.
+	.
+	.
+	<style>
 
-		</tyle>
-	</main>
+	</tyle>
+</main>
 ```
 
 ```
-	<footer>
+<footer>
+	.
+	.
+	.
+	<style>
 
-		<style>
-
-		</style>
-	</footer>
-</body>
+	</style>
+</footer>
 ```
 
