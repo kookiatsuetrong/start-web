@@ -37,7 +37,7 @@
 			%>
 			<section class="container">
 				<form class="user-form" method="post">
-					<h3>Create New Account</h3>
+					<h3>Register</h3>
 					
 					<input name="email"
 						placeholder="Your Email" 

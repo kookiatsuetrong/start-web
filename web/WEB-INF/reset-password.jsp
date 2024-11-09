@@ -61,7 +61,7 @@
 				column-gap: .5rem;
 			}
 			.trio svg {
-				margin-top: .5rem;
+				margin-top: .4rem;
 			}
 			img {
 				background: #bbb;

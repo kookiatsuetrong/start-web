@@ -10,7 +10,7 @@
 		<main>
 			<section class="container">
 				<form class="user-form" method="post">
-					<h3>Create Account or Log In</h3>
+					<h3>Register or Log In</h3>
 					<input name="email" 
 						placeholder="Your Email" 
 						autofocus 
@@ -60,7 +60,7 @@
 				column-gap: .5rem;
 			}
 			.trio svg {
-				margin-top: .5rem;
+				margin-top: .4rem;
 			}
 			img {
 				background: #bbb;
