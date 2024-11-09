@@ -34,6 +34,7 @@ import java.util.HashMap;
 // TODO: support static import, to use handle() directly
 // TODO: support live-reload for web service
 
+@MultipartConfig
 public class Server extends HttpServlet {
 
 	public

@@ -9,13 +9,15 @@ import start.web.Context;
 import java.util.Map;
 import jakarta.json.JsonObject;
 import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.Part;
+import java.io.File;
 import start.web.EmailSender;
 
 /*
 List of session variable
 user            ---> Detail of current user
 email           ---> Email for redirecting mechanism
-code            ---> Verification Code
+code            ---> Verification Code (4-Digit)
 photo-code      ---> Verification Code (BASE64)
 activation-code ---> Activation Code
 message         ---> Error message
@@ -58,9 +60,9 @@ class Main {
 								.by(Main::showResetPasswordFinal);
 		
 		server.handle("/contact").by(Main::showContactPage);
-		
 		server.handle("/contact").via("POST")
 								.by(Main::saveContactDetail);
+		server.handle("/contact-final").by(Main::showContactFinalPage);
 		
 		server.handleError(Main::showError);
 	}
@@ -273,9 +275,8 @@ class Main {
 		}
 		String code = Tool.randomPhotoCode();
 		String photoCode = Tool.createPhotoCode(code);
-		HttpSession s = context.getSession(true);
-		s.setAttribute("code", code);
-		s.setAttribute("photo-code", photoCode);
+		session.setAttribute("code", code);
+		session.setAttribute("photo-code", photoCode);
 		return context.render("/WEB-INF/reset-password.jsp");
 	}
 	
@@ -389,12 +390,67 @@ class Main {
 		return context.render("/WEB-INF/reset-password-final.jsp");
 	}
 	
-	
 	static Object showContactPage(Context context) {
-		return null;
+		HttpSession session = context.getSession(true);
+		User user = (User)session.getAttribute("user");
+		if (user != null) {
+			session.setAttribute("email", user.email);
+		}
+		String code = Tool.randomPhotoCode();
+		String photoCode = Tool.createPhotoCode(code);
+		session.setAttribute("code", code);
+		session.setAttribute("photo-code", photoCode);
+		return context.render("/WEB-INF/contact.jsp");
 	}
-		
+
 	static Object saveContactDetail(Context context) {
-		return null;
+		String topic  = context.getParameter("topic");
+		String detail = context.getParameter("detail");
+		String email  = context.getParameter("email");
+		String code   = context.getParameter("code");
+		
+		if (topic == null) topic = "";
+		if (detail == null) detail = "";
+		if (email == null) email = "";
+		if (code == null) code = "";
+		
+		HttpSession session = context.getSession(true);
+		String photoCode = (String)session.getAttribute("code");
+		session.removeAttribute("code");
+		if (code.equals(photoCode) == false) {			
+			String message = "Incorrect 4-Digit Code";
+			session.setAttribute("message", message);
+			return context.redirect("/contact");
+		}
+	
+		int record = Storage.saveContactMessage(topic, detail, email);
+		
+		String path = context.request.getServletContext().getRealPath("");
+		path += File.separator + "uploaded";
+		int n = 1;
+		try {
+			for (Part part : context.request.getParts()) {
+				String type = part.getContentType();
+				if (type == null) continue;
+				
+				String file = path + File.separator + 
+								"file-" + record + "-" + n;
+				switch (type) {
+					case "image/png"  -> file += ".png";
+					case "image/jpg"  -> file += ".jpg";
+					case "image/jpeg" -> file += ".jpg";
+				}
+				part.write(file);
+				n++;
+			}
+		} catch (Exception e) { }
+		
+		String message = "Your message has been sent to the system";
+		session.setAttribute("message", message);
+		return context.redirect("/contact-final");
+	}
+	
+	static Object showContactFinalPage(Context context) {
+		return context.render("/WEB-INF/contact-final.jsp");
 	}
 }

@@ -1,6 +1,9 @@
 package start.web;
 
 import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
 
 public class Storage {
 
@@ -75,9 +78,35 @@ public class Storage {
 			var ps = cn.prepareStatement(sql);
 			ps.setString(1, password);
 			ps.setString(2, email);
-			result = ps.execute();
+			result = ps.execute();    // or ps.executeUpdate()
 			ps.close(); cn.close();
 		} catch (Exception e) { }
 		return result;
+	}
+	
+	public static int
+	saveContactMessage(String topic, String detail, String email) {
+		var sql   = " insert into messages(topic,detail,email,time) " +
+					" values(?, ?, ?, utc_timestamp())              ";
+		ArrayList<Integer> list = new ArrayList<>();
+		
+		try {
+			var cn = DriverManager.getConnection(source);
+			var ps = cn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			ps.setString(1, topic);
+			ps.setString(2, detail);
+			ps.setString(3, email);
+			ps.execute();
+			ResultSet rs = ps.getGeneratedKeys();
+			while (rs.next()) {
+				list.add( (int)rs.getLong(1) );
+			}
+			rs.close(); ps.close(); cn.close();
+		} catch (Exception e) { }
+		
+		if (list.size() == 0) return 0;
+		Integer first = list.get(0);
+		if (first == null) return 0;
+		return first;
 	}
 }

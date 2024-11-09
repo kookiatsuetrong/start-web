@@ -7,7 +7,7 @@ User footerUser = (User)session.getAttribute("user");
 		<p>
 			<a href="/">Home</a>
 			<a href="/">About Us</a>
-			<a href="/">Contact</a>
+			<a href="/contact">Contact</a>
 		</p>
 
 		<% if (footerUser == null) {       %>
