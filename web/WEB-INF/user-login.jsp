@@ -36,13 +36,13 @@
 					</p>
 				</form>
 			</section>
+			<style>
+				.bottom-menu {
+					border-top: .1rem solid rgba(0,0,0,0.05);
+					text-align: right;
+				}
+			</style>
 		</main>
-		<style>
-			.bottom-menu {
-				border-top: .1rem solid rgba(0,0,0,0.05);
-				text-align: right;
-			}
-		</style>
 		
 		<%@include file="/WEB-INF/footer.jsp" %>
 	</body>

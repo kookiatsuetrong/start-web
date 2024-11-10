@@ -409,10 +409,10 @@ class Main {
 		String email  = context.getParameter("email");
 		String code   = context.getParameter("code");
 		
-		if (topic == null) topic = "";
+		if (topic  == null) topic  = "";
 		if (detail == null) detail = "";
-		if (email == null) email = "";
-		if (code == null) code = "";
+		if (email  == null) email  = "";
+		if (code   == null) code   = "";
 		
 		HttpSession session = context.getSession(true);
 		String photoCode = (String)session.getAttribute("code");

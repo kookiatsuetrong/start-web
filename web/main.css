@@ -177,8 +177,8 @@ h3 { font-size: 1.50rem; font-weight: 400; margin: 0; }
 	--input-border:           rgba(0, 0, 0, 0);
 	--input-border-hover:     rgba(0, 0, 0, 0.1);
 	--input-border-focus:     rgba(0, 0, 0, 0.1);
-	--input-background:       rgba(128,128,128,.25);
-	--input-background-hover: rgba(128,128,128,.25);
+	--input-background:       rgba(128,128,128,.10);
+	--input-background-hover: rgba(128,128,128,.10);
 	--input-background-focus: rgba(255,255,255,.75);
 	--input-height: 2rem;
 	--input-border-radius: .25rem;
@@ -254,7 +254,8 @@ button,
 	height: var(--button-height);
 	font-size: 1.1rem;
 	padding: .27rem .5em;
-	transition: color .15s linear, border .15s linear;
+	transition: color .15s linear, 
+				border .15s linear;
 }
 button:hover,
 .button:hover {
@@ -265,19 +266,19 @@ button:hover,
 }
 input[type=file] {
 	padding: 1rem 0 .75rem 1rem;
-	border: .2rem dashed #ddd;
-	width: calc(100% - 1.4rem);
-	transition: background .15s linear,
-				border .15s linear;
+	border: .15rem dashed #ddd;
+	transition: background .25s linear,
+				border .25s linear;
 }
 input[type=file].active-file-upload {
-	border: .2rem dashed #666;
+	border: .15rem dashed #666;
 	background: #eee;
 }
 header {
 	min-height: 2rem;
 }
 main {
+	padding-bottom: 2rem;
 }
 footer {
 	background: var(--footer-background);
@@ -311,9 +312,6 @@ footer .footer-container {
 	footer .footer-container {
 		grid-template-columns: 1fr 1fr 1.8fr;
 	}
-}
-input[type=file] {
-	
 }
 
 .user-form {

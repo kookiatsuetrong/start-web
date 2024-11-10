@@ -51,24 +51,25 @@
 					%>
 				</form>
 			</section>
+
+			<style>
+				.trio {
+					display: grid;
+					grid-template-columns: 1fr 1.5rem 4rem;
+					column-gap: .5rem;
+				}
+				.trio svg {
+					margin-top: .4rem;
+				}
+				img {
+					background: #bbb;
+					padding: .65rem;
+					margin-top: .005rem;
+					border-radius: .35rem;
+				}
+			</style>
+
 		</main>
-		
-		<style>
-			.trio {
-				display: grid;
-				grid-template-columns: 1fr 1.5rem 4rem;
-				column-gap: .5rem;
-			}
-			.trio svg {
-				margin-top: .4rem;
-			}
-			img {
-				background: #bbb;
-				padding: .65rem;
-				margin-top: .005rem;
-				border-radius: .35rem;
-			}
-		</style>
 		
 		<%@include file="/WEB-INF/footer.jsp" %>
 	</body>
