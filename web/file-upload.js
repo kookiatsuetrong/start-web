@@ -79,7 +79,7 @@ FileUpload.onClick = function onClick() {
 }
 
 FileUpload.uploadFiles = function uploadFiles(files) {
-	var random = parseInt(Math.random() * 10000)
+	var random = document.querySelectorAll("input").length + 1
 	var chooser = document.createElement("input")
 	chooser.name = "photo-" + random
 	chooser.type = "file"
