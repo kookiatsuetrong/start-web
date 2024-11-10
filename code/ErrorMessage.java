@@ -22,12 +22,15 @@ class ErrorMessage {
 	PASSWORD_LOWERCASE        = "Password must have a lowercase";
 	
 	public static String 
-	INCORRECT_PASSWORD        = "Incorrect password";
+	INCORRECT_PASSWORD         = "Incorrect password";
 	public static String
-	EMAIL_NOT_FOUND           = "Email is not in the database";
+	INCORRECT_CONFIRM_PASSWORD = "Password and confirm password " +
+									"are not identical";
+	public static String
+	EMAIL_NOT_FOUND            = "Email is not in the database";
 	
 	public static String 
-	PASSWORD_RESET_SUCCESS    = "Your password has been reset";
+	PASSWORD_RESET_SUCCESS     = "Your password has been reset";
 	public static String 
-	CONTACT_SAVE_SUCCESS      = "Your message has been sent to the system";
+	CONTACT_SAVE_SUCCESS       = "Your message has been sent to the system";
 }

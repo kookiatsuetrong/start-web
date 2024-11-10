@@ -315,3 +315,11 @@ footer .footer-container {
 .user-form textarea {
 	margin-bottom: .5rem;
 }
+.error {
+	display: block;
+	padding: 1rem;
+	background: rgba(255, 200, 200, .25);
+	border: .1rem solid rgba(192, 128, 128, .50);
+	border-radius: .35rem;
+	margin-bottom: 1rem;
+}

@@ -12,13 +12,14 @@
 				<%
 				String message = (String)session.getAttribute("message");
 				if (message == null) message = "";
-				session.removeAttribute("message");				
+				session.removeAttribute("message");		
 				%>
 				
 				<p>
 				<%= message %>
 				</p>
 				<a class="button" href="/user-check-email">Log In</a>
+				<a class="button" href="/reset-password">Reset Password</a>
 			</section>
 		</main>
 		

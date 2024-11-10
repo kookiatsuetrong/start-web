@@ -11,24 +11,33 @@
 			<section class="container">
 				<form class="user-form" method="post">
 					<h3>Reset Password</h3>
-					<input name="email" 
-						placeholder="Your Email" 
-						type="email"
-						autofocus 
-						required
-						autocomplete="off"
-						/>
+					
 					<%
-					String message = (String)session
-										.getAttribute("message");
+					String message = (String)session.getAttribute("message");
 					if (message == null) message = "";
 					session.removeAttribute("message");
 					
-					String photoCode = (String)session
-										.getAttribute("photo-code");
+					String email = (String)session.getAttribute("email");
+					if (email == null) email = "";
+					session.removeAttribute("email");
+					
+					String photoCode = (String)session.getAttribute("photo-code");
 					if (photoCode == null) photoCode = "";
 					session.removeAttribute("photo-code");
 					%>
+					
+					<% if ("".equals(message) == false) {     %>
+					<span class="error"><%= message %></span>
+					<% }                                      %>
+					
+					<input name="email" 
+						placeholder="Your Email" 
+						type="email"
+						required
+						autofocus
+						autocomplete="off"
+						value="<%= email %>"
+						/>
 					<span class="trio">
 						<input name="code" 
 							placeholder="4-Digit Code"
@@ -49,7 +58,6 @@
 							<%= photoCode %>" />
 					</span>
 					<button>Get Reset Code</button>
-					<%= message %>
 				</form>
 			</section>
 				

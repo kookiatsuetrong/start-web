@@ -202,9 +202,12 @@ class Main {
 		session.removeAttribute("last-name");
 		session.removeAttribute("activation-code");
 		Storage.createAccount(email, password, firstName, lastName);
-		user = Storage.checkPassword(email, password);
 		
+		user = Storage.checkPassword(email, password);
 		session.setAttribute("user", user);
+		
+		// TODO: Send confirmation email to the user
+		
 		return context.redirect("/user-profile");
 	}
 	
@@ -288,17 +291,21 @@ class Main {
 		}
 		String email = context.getParameter("email");
 		String code  = context.getParameter("code");
-		if (code == null) code = "";
-		String value = (String)session.getAttribute("code");
+		if (email == null) email = "";
+		if (code  == null) code  = "";
 		
-		if (code.equals(value) == false) {
-			session.setAttribute("message", ErrorMessage.INCORRECT_PHOTO_CODE);
-			return context.redirect("/reset-password");
-		}
+		session.setAttribute("email", email);
+		
+		String value = (String)session.getAttribute("code");
 		
 		user = Storage.getUserByEmail(email);
 		if (user == null) {
 			session.setAttribute("message", ErrorMessage.EMAIL_NOT_FOUND);
+			return context.redirect("/reset-password");
+		}
+		
+		if (code.equals(value) == false) {
+			session.setAttribute("message", ErrorMessage.INCORRECT_PHOTO_CODE);
 			return context.redirect("/reset-password");
 		}
 		
@@ -322,6 +329,7 @@ class Main {
 		}
 		String activation = (String)session.getAttribute("activation-code");
 		String email = (String)session.getAttribute("email");
+		
 		if (activation == null || email == null) {
 			return context.redirect("/reset-password");
 		}
@@ -342,7 +350,7 @@ class Main {
 		String value = (String)session.getAttribute("activation-code");
 		if (code.equals(value) == false) {
 			session.setAttribute("message", ErrorMessage.INCORRECT_RESET_CODE);
-			return context.redirect("/reset-password-final");
+			return context.redirect("/reset-password-code");
 		}
 		
 		String password = context.getParameter("password");
@@ -351,31 +359,33 @@ class Main {
 		if (password == null || password.length() < 8) {
 			session.setAttribute("message", 
 						"Password is at least 8 characters");
-			return context.redirect("/reset-password-final");
+			return context.redirect("/reset-password-code");
 		}
 		
 		if (password.equals(confirm) == false) {
 			session.setAttribute("message", 
-						"Password and confirm must be identical");
-			return context.redirect("/reset-password-final");
+					ErrorMessage.INCORRECT_CONFIRM_PASSWORD);
+			return context.redirect("/reset-password-code");
 		}
 		
 		if (password.matches(".*[0-9].*") == false) {
 			session.setAttribute("message", ErrorMessage.PASSWORD_NUMBER);
-			return context.redirect("/reset-password-final");
+			return context.redirect("/reset-password-code");
 		}
 		
 		if (password.matches(".*[A-Z].*") == false) {
 			session.setAttribute("message", ErrorMessage.PASSWORD_UPPERCASE);
-			return context.redirect("/reset-password-final");
+			return context.redirect("/reset-password-code");
 		}
 		
 		if (password.matches(".*[a-z].*") == false) {
 			session.setAttribute("message", ErrorMessage.PASSWORD_LOWERCASE);
-			return context.redirect("/reset-password-final");
+			return context.redirect("/reset-password-code");
 		}
 		
 		Storage.resetPassword(email, password);
+		
+		// TODO: Send confirmation email to the user
 		
 		session.setAttribute("message", ErrorMessage.PASSWORD_RESET_SUCCESS);
 		return context.redirect("/reset-password-final");
@@ -423,6 +433,7 @@ class Main {
 		}
 	
 		int record = Storage.saveContactMessage(topic, detail, email);
+		// TODO: Send confirmation email to the user
 		
 		String path = context.request.getServletContext().getRealPath("");
 		path += File.separator + "uploaded";

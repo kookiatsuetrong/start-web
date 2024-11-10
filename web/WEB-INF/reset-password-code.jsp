@@ -11,6 +11,7 @@
 			<%
 				String email = (String)session.getAttribute("email");	
 				if (email == null) email = "";
+				// DON'T USE THIS CODE: session.removeAttribute("email");
 				
 				String message = (String)session.getAttribute("message");
 				if (message == null) message = "";
@@ -20,6 +21,10 @@
 				<form class="user-form" method="post">
 					<h3>Reset Password</h3>
 					
+					<% if ("".equals(message) == false) {     %>
+					<span class="error"><%= message %></span>
+					<% }                                      %>
+
 					<input name="email"
 						placeholder="Your Email" 
 						type="email"
@@ -56,7 +61,6 @@
 						/>
 					
 					<button>Change Password</button>
-					<%= message %>
 				</form>
 			</section>
 		</main>
