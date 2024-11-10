@@ -427,7 +427,11 @@ class Main {
 		HttpSession session = context.getSession(true);
 		String photoCode = (String)session.getAttribute("code");
 		session.removeAttribute("code");
-		if (code.equals(photoCode) == false) {			
+		
+		if (code.equals(photoCode) == false) {
+			session.setAttribute("topic", topic);
+			session.setAttribute("detail", detail);
+			session.setAttribute("email", email);
 			session.setAttribute("message", ErrorMessage.INCORRECT_PHOTO_CODE);
 			return context.redirect("/contact");
 		}

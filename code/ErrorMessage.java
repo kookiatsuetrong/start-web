@@ -32,5 +32,5 @@ class ErrorMessage {
 	public static String 
 	PASSWORD_RESET_SUCCESS     = "Your password has been reset";
 	public static String 
-	CONTACT_SAVE_SUCCESS       = "Your message has been sent to the system";
+	CONTACT_SAVE_SUCCESS       = "Your message has been received";
 }

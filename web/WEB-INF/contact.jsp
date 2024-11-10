@@ -21,23 +21,37 @@
 				String email = (String)session.getAttribute("email");
 				if (email == null) email = "";
 				session.removeAttribute("email");
+				
+				String topic = (String)session.getAttribute("topic");
+				if (topic == null) topic = "";
+				session.removeAttribute("topic");
+				
+				String detail = (String)session.getAttribute("detail");
+				if (detail == null) detail = "";
+				session.removeAttribute("detail");
 				%>
 				<form class="user-form" method="post"
 					enctype="multipart/form-data">
 					<h3>Contact</h3>
+					<% if ("".equals(message) == false) {       %>
+						<span class="error">
+							<%= message %>
+						</span>
+					<% }                                        %>
 					<input name="topic"
 						placeholder="Topic"
 						required
 						autofocus
 						autocomplete="off"
+						value="<%= topic %>"
 						/>
 					<textarea name="detail"
-						placeholder="Detail"></textarea>
+						placeholder="Detail"><%= detail %></textarea>
 
 					<section class="file-upload">
 					</section>
 
-					<input name="email" 
+					<input name="email"
 						placeholder="Your Email" 
 						type="email"
 						required
@@ -64,7 +78,6 @@
 							<%= photoCode %>" />
 					</span>
 					<button>Send</button>
-					<%= message %>
 				</form>
 			</section>
 				
