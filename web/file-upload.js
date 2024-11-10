@@ -1,5 +1,20 @@
 var FileUpload = { 
-	borderColor: "goldenrod"
+	type: "*",
+	text: "File Upload",
+	multiple: true,
+	border: ".15rem dashed #888",
+	background: "#ddd"
+}
+
+FileUpload.setType = function setType(mime) {
+	FileUpload.type = mime
+}
+
+FileUpload.setText = function setText(message) {
+	FileUpload.text = message
+	var dropArea = document.querySelector(FileUpload.element)
+	var p = dropArea.querySelector("p")
+	p.innerText = FileUpload.text
 }
 
 FileUpload.setStyle = function setStyle(style) {
@@ -8,8 +23,11 @@ FileUpload.setStyle = function setStyle(style) {
 	}
 	
 	var dropArea = document.querySelector(FileUpload.element)
+	var p = dropArea.querySelector("p")
+	
 	for (var k in style) {
 		dropArea.style[k] = style[k]
+		if (k == "color") p.style[k] = style[k]
 	}
 }
 
@@ -17,11 +35,15 @@ FileUpload.create = function setup(element) {
 	FileUpload.element = element
 	var dropArea = document.querySelector(FileUpload.element)
 	
+	var p = document.createElement("p")
+	dropArea.appendChild(p)
+	p.innerText = FileUpload.text
+	
 	dropArea.style.height        = "3rem"
 	dropArea.style.paddingBottom = "1rem"
 	dropArea.style.display       = "block"
-	dropArea.style.background    = "rgba(128, 128, 128, .25)"
-	dropArea.style.border        = "0.15rem dashed #666"
+	dropArea.style.background    = FileUpload.background
+	dropArea.style.border        = FileUpload.border
 	dropArea.style.borderRadius  = "0.35rem"
 	dropArea.style.transition    = "border .1s linear"
 	dropArea.style.textAlign     = "center"
@@ -47,33 +69,31 @@ FileUpload.onDragOver = function onDragOver(event) {
 FileUpload.onDragLeave = function onDragLeave(event) {
 	event.preventDefault()
 	var dropArea = document.querySelector(FileUpload.element)
-	dropArea.style.border = ".15rem dashed #666"
-	dropArea.style.background = "rgba(128, 128, 128, .25)"
+	dropArea.style.border = FileUpload.border
+	dropArea.style.background = FileUpload.background
 }
 
 FileUpload.onDragEnd = function onDragEnd(event) {
 	event.preventDefault()
 	var dropArea = document.querySelector(FileUpload.element)
-	dropArea.style.border = ".15rem dashed #666"
-	dropArea.style.background = "rgba(128, 128, 128, .25)"
+	dropArea.style.border = FileUpload.border
+	dropArea.style.background = FileUpload.background
 }
 
 FileUpload.onReady = function onReady(event) {
 	var count = 0
-	var all = document.querySelectorAll("[type=file]")
+	var dropArea = document.querySelector(FileUpload.element)
+	var all = dropArea.querySelectorAll("[type=file]")
 	for (var e of all) {
 		for (var f of e.files) {
-			// console.log(f)
 			count++
 		}
 	}
-	var dropArea = document.querySelector(FileUpload.element)
-	dropArea.style.border = ".15rem dashed #666"
-	dropArea.style.background = "rgba(128, 128, 128, .25)"
+	dropArea.style.border = FileUpload.border
+	dropArea.style.background = FileUpload.background
 	
 	var message = count + " File(s)"
 	dropArea.querySelector("p").innerText = message
-	
 }
 
 FileUpload.onDrop = function onDrop(event) {			
@@ -83,10 +103,10 @@ FileUpload.onDrop = function onDrop(event) {
 
 FileUpload.onClick = function onClick() {
 	var chooser = document.createElement("input")
-	chooser.type = "file"
+	chooser.type     = "file"
 	chooser.multiple = true
-	chooser.accept = "image/*"
-	chooser.capture = true
+	chooser.accept   = FileUpload.type
+	chooser.capture  = true
 	chooser.onchange = event => {
 		FileUpload.uploadFiles(event.target.files)
 	}
@@ -99,11 +119,11 @@ FileUpload.uploadFiles = function uploadFiles(files) {
 	chooser.name = "photo-" + random
 	chooser.type = "file"
 	chooser.multiple = true
-	// chooser.accept = "image/*"
+	// chooser.accept   = FileUpload.type
 	chooser.style.display = "none"
 	chooser.files = files
 
-	var form = document.querySelector("form")
-	form.append(chooser)
+	var form = document.querySelector(FileUpload.element)
+	form.appendChild(chooser)
 	this.onReady(event)
 }

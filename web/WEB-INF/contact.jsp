@@ -35,7 +35,6 @@
 						placeholder="Detail"></textarea>
 
 					<section class="file-upload">
-						<p>File Upload</p>
 					</section>
 
 					<input name="email" 
@@ -92,7 +91,14 @@
 			<script src="/file-upload.js"></script>
 			<script>
 				FileUpload.create(".file-upload")
-				FileUpload.setStyle({borderColor: "dodgerblue"})
+				FileUpload.setText("File Upload")
+				FileUpload.setType("image/*")
+				/*
+				FileUpload.setStyle({
+						borderColor: "darkgreen", 
+						color: "#ccc",
+						background: "#8ba"
+					}) */
 			</script>
 		</main>
 		
