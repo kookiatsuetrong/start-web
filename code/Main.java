@@ -91,8 +91,8 @@ class Main {
 		session.removeAttribute("code");
 		String photoCode = context.getParameter("code");
 		
-		if (code.equals(photoCode) == false) {		
-			session.setAttribute("message", "Invalid photo code");
+		if (code.equals(photoCode) == false) {
+			session.setAttribute("message", ErrorMessage.INCORRECT_PHOTO_CODE);
 			return context.redirect("/user-check-email");	
 		}
 		
@@ -160,38 +160,38 @@ class Main {
 		session.setAttribute("last-name",  lastName);
 		
 		if (firstName.length() < 2) {
-			session.setAttribute("message", "Invalid first name");
+			session.setAttribute("message", ErrorMessage.INVALID_FIRST_NAME);
 			return context.redirect("/user-register");
 		}
 		
 		if (lastName.length() < 2) {
-			session.setAttribute("message", "Invalid last name");
+			session.setAttribute("message", ErrorMessage.INVALID_LAST_NAME);
 			return context.redirect("/user-register");
 		}
 		
 		if (password.length() < 8) {
-			session.setAttribute("message", 
-					"Password must have 8 characters or more");
+			session.setAttribute("message", ErrorMessage.PASSWORD_TOO_SHORT);
 			return context.redirect("/user-register");
 		}
 		
 		if (password.matches(".*[0-9].*") == false) {
-			session.setAttribute("message", "Password must have a number");
+			session.setAttribute("message", ErrorMessage.PASSWORD_NUMBER);
 			return context.redirect("/user-register");
 		}
 		
 		if (password.matches(".*[A-Z].*") == false) {
-			session.setAttribute("message", "Password must have an uppercase");
+			session.setAttribute("message", ErrorMessage.PASSWORD_UPPERCASE);
 			return context.redirect("/user-register");
 		}
 		
 		if (password.matches(".*[a-z].*") == false) {
-			session.setAttribute("message", "Password must have a lowercase");
+			session.setAttribute("message", ErrorMessage.PASSWORD_LOWERCASE);
 			return context.redirect("/user-register");
 		}
 		
 		if (code.equals(activation) == false) {
-			session.setAttribute("message", "Incorrect activation code");
+			session.setAttribute("message", 
+						ErrorMessage.INCORRECT_ACTIVATION_CODE);
 			return context.redirect("/user-register");
 		}
 		
@@ -236,7 +236,7 @@ class Main {
 		
 		user = Storage.checkPassword(email, password);
 		if (user == null) {
-			session.setAttribute("message", "Incorrect password");
+			session.setAttribute("message", ErrorMessage.INCORRECT_PASSWORD);
 			return context.redirect("/user-login");
 		}
 		
@@ -292,13 +292,13 @@ class Main {
 		String value = (String)session.getAttribute("code");
 		
 		if (code.equals(value) == false) {
-			session.setAttribute("message", "Incorrect Code");
+			session.setAttribute("message", ErrorMessage.INCORRECT_PHOTO_CODE);
 			return context.redirect("/reset-password");
 		}
 		
 		user = Storage.getUserByEmail(email);
 		if (user == null) {
-			session.setAttribute("message", "Email is not in the database");
+			session.setAttribute("message", ErrorMessage.EMAIL_NOT_FOUND);
 			return context.redirect("/reset-password");
 		}
 		
@@ -341,7 +341,7 @@ class Main {
 		
 		String value = (String)session.getAttribute("activation-code");
 		if (code.equals(value) == false) {
-			session.setAttribute("message", "Incorrect reset code");
+			session.setAttribute("message", ErrorMessage.INCORRECT_RESET_CODE);
 			return context.redirect("/reset-password-final");
 		}
 		
@@ -361,23 +361,23 @@ class Main {
 		}
 		
 		if (password.matches(".*[0-9].*") == false) {
-			session.setAttribute("message", "Password must have a number");
+			session.setAttribute("message", ErrorMessage.PASSWORD_NUMBER);
 			return context.redirect("/reset-password-final");
 		}
 		
 		if (password.matches(".*[A-Z].*") == false) {
-			session.setAttribute("message", "Password must have an uppercase");
+			session.setAttribute("message", ErrorMessage.PASSWORD_UPPERCASE);
 			return context.redirect("/reset-password-final");
 		}
 		
 		if (password.matches(".*[a-z].*") == false) {
-			session.setAttribute("message", "Password must have a lowercase");
+			session.setAttribute("message", ErrorMessage.PASSWORD_LOWERCASE);
 			return context.redirect("/reset-password-final");
 		}
 		
 		Storage.resetPassword(email, password);
 		
-		session.setAttribute("message", "Your password has been reset");
+		session.setAttribute("message", ErrorMessage.PASSWORD_RESET_SUCCESS);
 		return context.redirect("/reset-password-final");
 	}
 	
@@ -418,8 +418,7 @@ class Main {
 		String photoCode = (String)session.getAttribute("code");
 		session.removeAttribute("code");
 		if (code.equals(photoCode) == false) {			
-			String message = "Incorrect 4-Digit Code";
-			session.setAttribute("message", message);
+			session.setAttribute("message", ErrorMessage.INCORRECT_PHOTO_CODE);
 			return context.redirect("/contact");
 		}
 	
@@ -447,12 +446,12 @@ class Main {
 			}
 		} catch (Exception e) { }
 		
-		String message = "Your message has been sent to the system";
-		session.setAttribute("message", message);
+		session.setAttribute("message", ErrorMessage.CONTACT_SAVE_SUCCESS);
 		return context.redirect("/contact-final");
 	}
 	
 	static Object showContactFinalPage(Context context) {
 		return context.render("/WEB-INF/contact-final.jsp");
 	}
+	
 }

@@ -31,17 +31,8 @@
 						   />
 					<button>Log In</button>
 					<%= message %>
-					<p class="bottom-menu">
-						<a href="/user-reset-password">Reset Password</a>
-					</p>
 				</form>
 			</section>
-			<style>
-				.bottom-menu {
-					border-top: .1rem solid rgba(0,0,0,0.05);
-					text-align: right;
-				}
-			</style>
 		</main>
 		
 		<%@include file="/WEB-INF/footer.jsp" %>

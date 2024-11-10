@@ -7,11 +7,13 @@ create table users
 	email         varchar(200) unique not null,
 	password      varchar(200) not null,
 	first_name    varchar(200) not null,
-	last_name     varchar(200) not null
+	last_name     varchar(200) not null,
+	type          varchar(200) not null default 'user'
 );
 
-insert into users(email, password, first_name, last_name)
-	values('user@email.com', upper(sha2('User1234', 512)), 'First', 'Last');
+insert into users(email, password, first_name, last_name, type)
+	values('user@email.com', upper(sha2('User1234', 512)), 
+		'First', 'Last', 'administrator');
 
 create table messages
 (
