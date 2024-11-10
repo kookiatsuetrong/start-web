@@ -206,8 +206,10 @@ class Main {
 		user = Storage.checkPassword(email, password);
 		session.setAttribute("user", user);
 		
-		// TODO: Send confirmation email to the user
-		
+		if (EmailSender.emailEnabled) {
+			Email e = new Email();
+			e.sendWelcome(email);
+		}
 		return context.redirect("/user-profile");
 	}
 	
@@ -313,10 +315,13 @@ class Main {
 		session.setAttribute("activation-code", activation);
 		session.setAttribute("email", email);
 		
-		Email e = new Email();
-		e.sendResetCode(email, activation);
-
-		// TODO: if (EmailSender.emailEnabled) { }
+		if (EmailSender.emailEnabled) {
+			Email e = new Email();
+			e.sendResetCode(email, activation);
+		}
+		
+		// TODO: How user can reset password without email system
+		// e.g. let administrator to send reset code directly to the email
 		
 		return context.redirect("/reset-password-code");
 	}
@@ -385,7 +390,10 @@ class Main {
 		
 		Storage.resetPassword(email, password);
 		
-		// TODO: Send confirmation email to the user
+		if (EmailSender.emailEnabled) {
+			Email e = new Email();
+			e.sendResetConfirmation(email);
+		}
 		
 		session.setAttribute("message", ErrorMessage.PASSWORD_RESET_SUCCESS);
 		return context.redirect("/reset-password-final");
@@ -437,7 +445,10 @@ class Main {
 		}
 	
 		int record = Storage.saveContactMessage(topic, detail, email);
-		// TODO: Send confirmation email to the user
+		if (EmailSender.emailEnabled) {
+			Email e = new Email();
+			e.sendContactSavedConfirmation(email);
+		}
 		
 		String path = context.request.getServletContext().getRealPath("");
 		path += File.separator + "uploaded";
