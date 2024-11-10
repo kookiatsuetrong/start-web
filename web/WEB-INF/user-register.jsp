@@ -38,7 +38,11 @@
 			<section class="container">
 				<form class="user-form" method="post">
 					<h3>Register</h3>
-					
+					<% if ("".equals(message) == false) {       %>
+						<span class="error">
+							<%= message %>
+						</span>
+					<% }                                        %>
 					<input name="email"
 						placeholder="Your Email" 
 						autocomplete="off"
@@ -87,7 +91,6 @@
 						/>
 					
 					<button>Create Account</button>
-					<%= message %>
 				</form>
 			</section>
 		</main>

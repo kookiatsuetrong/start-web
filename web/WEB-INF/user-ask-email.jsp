@@ -9,8 +9,25 @@
 		<header></header>
 		<main>
 			<section class="container">
+				
+				<%
+				String message   = (String)session.getAttribute("message");
+				if (message == null) message = "";
+				session.removeAttribute("message");
+				
+				String photoCode = (String)session.getAttribute("photo-code");
+				if (photoCode == null) photoCode = "";
+				session.removeAttribute("photo-code");
+				%>
+
 				<form class="user-form" method="post">
 					<h3>Register or Log In</h3>
+					
+					<% if ("".equals(message) == false) {       %>
+						<span class="error">
+							<%= message %>
+						</span>
+					<% }                                        %>
 					<input name="email" 
 						placeholder="Your Email" 
 						autofocus 
@@ -18,14 +35,6 @@
 						type="email"
 						autocomplete="off"
 						/>
-					<%
-					String message   = (String)session
-										.getAttribute("message");
-					message = message == null ? "" : message;
-					String photoCode = (String)session
-										.getAttribute("photo-code");
-					photoCode = photoCode == null ? "" : photoCode;
-					%>
 					<span class="trio">
 						<input name="code" 
 							placeholder="4-Digit Code" 
@@ -45,10 +54,6 @@
 					</span>
 
 					<button>Continue</button>
-					<%
-					out.print(message); 
-					session.removeAttribute("message");
-					%>
 				</form>
 			</section>
 

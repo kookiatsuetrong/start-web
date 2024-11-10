@@ -8,15 +8,25 @@
 	<body>
 		<header></header>
 		<main>
-			<%
-			String email = (String)session.getAttribute("email");
-			if (email == null) email = "";
-			String message = (String)session.getAttribute("message");
-			if (message == null) message = "";
-			%>
 			<section class="container">
+				<%
+				String email = (String)session.getAttribute("email");
+				if (email == null) email = "";
+				session.removeAttribute("email");
+
+				String message = (String)session.getAttribute("message");
+				if (message == null) message = "";
+				session.removeAttribute("message");
+				%>
 				<form class="user-form" method="post">
 					<h3>Log In</h3>
+					
+					<% if ("".equals(message) == false) {       %>
+						<span class="error">
+							<%= message %>
+						</span>
+					<% }                                        %>
+					
 					<input name="email" 
 						placeholder="Your Email" 
 						autocomplete="off"
@@ -30,7 +40,6 @@
 						   autofocus
 						   />
 					<button>Log In</button>
-					<%= message %>
 				</form>
 			</section>
 		</main>
