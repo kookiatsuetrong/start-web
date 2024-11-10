@@ -264,16 +264,6 @@ button:hover,
 	border: .1rem solid var(--button-border-hover);
 	cursor: pointer;
 }
-input[type=file] {
-	padding: 1rem 0 .75rem 1rem;
-	border: .15rem dashed #ddd;
-	transition: background .25s linear,
-				border .25s linear;
-}
-input[type=file].active-file-upload {
-	border: .15rem dashed #666;
-	background: #eee;
-}
 header {
 	min-height: 2rem;
 }

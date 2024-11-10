@@ -430,7 +430,9 @@ class Main {
 		int n = 1;
 		try {
 			for (Part part : context.request.getParts()) {
+				String name = part.getName();
 				String type = part.getContentType();
+				System.out.println(name + " " + type);
 				if (type == null) continue;
 				
 				String file = path + File.separator + 
