@@ -1,17 +1,32 @@
-var FileUpload = { }
+var FileUpload = { 
+	borderColor: "goldenrod"
+}
+
+FileUpload.setStyle = function setStyle(style) {
+	for (var k in style) {
+		FileUpload[k] = style[k]
+	}
+	
+	var dropArea = document.querySelector(FileUpload.element)
+	for (var k in style) {
+		dropArea.style[k] = style[k]
+	}
+}
 
 FileUpload.create = function setup(element) {
 	FileUpload.element = element
 	var dropArea = document.querySelector(FileUpload.element)
-
-	dropArea.style.height       = "3rem"
+	
+	dropArea.style.height        = "3rem"
 	dropArea.style.paddingBottom = "1rem"
-	dropArea.style.display      = "block"
-	dropArea.style.background   = "#d2d2d2"
-	dropArea.style.border       = "0.15rem dashed #666"
-	dropArea.style.borderRadius = "0.35rem"
-	dropArea.style.transition   = "border .1s linear"
-	dropArea.style.textAlign    = "center"
+	dropArea.style.display       = "block"
+	dropArea.style.background    = "rgba(128, 128, 128, .25)"
+	dropArea.style.border        = "0.15rem dashed #666"
+	dropArea.style.borderRadius  = "0.35rem"
+	dropArea.style.transition    = "border .1s linear"
+	dropArea.style.textAlign     = "center"
+	
+	dropArea.style.borderColor = FileUpload.borderColor
 
 	dropArea.ondrop      = this.onDrop
 	dropArea.onclick     = this.onClick
@@ -33,14 +48,14 @@ FileUpload.onDragLeave = function onDragLeave(event) {
 	event.preventDefault()
 	var dropArea = document.querySelector(FileUpload.element)
 	dropArea.style.border = ".15rem dashed #666"
-	dropArea.style.background = "#d2d2d2"
+	dropArea.style.background = "rgba(128, 128, 128, .25)"
 }
 
 FileUpload.onDragEnd = function onDragEnd(event) {
 	event.preventDefault()
 	var dropArea = document.querySelector(FileUpload.element)
 	dropArea.style.border = ".15rem dashed #666"
-	dropArea.style.background = "#d2d2d2"
+	dropArea.style.background = "rgba(128, 128, 128, .25)"
 }
 
 FileUpload.onReady = function onReady(event) {
@@ -54,7 +69,7 @@ FileUpload.onReady = function onReady(event) {
 	}
 	var dropArea = document.querySelector(FileUpload.element)
 	dropArea.style.border = ".15rem dashed #666"
-	dropArea.style.background = "#d2d2d2"
+	dropArea.style.background = "rgba(128, 128, 128, .25)"
 	
 	var message = count + " File(s)"
 	dropArea.querySelector("p").innerText = message

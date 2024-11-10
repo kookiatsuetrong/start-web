@@ -92,6 +92,7 @@
 			<script src="/file-upload.js"></script>
 			<script>
 				FileUpload.create(".file-upload")
+				FileUpload.setStyle({borderColor: "dodgerblue"})
 			</script>
 		</main>
 		
