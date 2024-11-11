@@ -96,7 +96,6 @@
 			font-size: 1.25rem;
 			color: white;
 			margin-top: 1rem;
-			max-width: 32rem;
 			line-height: 2rem;
 		}
 
@@ -157,7 +156,7 @@
 		<br/>
 		<section class="container duo">
 			<section class="panel">
-				<h3>Create Account</h3>
+				<h3>Register</h3>
 				<p>
 				The quick brown fox jumps over a lazy dog.
 				The quick brown dog jumps over a lazy fox.
@@ -167,7 +166,7 @@
 				</p>
 				<span>
 					<a class="button" 
-						href="/user-register">Create Account</a>
+						href="/user-register">Register</a>
 				</span>
 			</section>
 			<section class="panel">
@@ -372,7 +371,6 @@
 		}
 		main .button:hover {
 			border: none;
-			color: #444;
 		}
 		main .feature-container {
 			display: grid;
@@ -474,6 +472,10 @@
 		.photo-left img:hover,
 		.photo-right img:hover {
 			transform: scale(1.05);
+		}
+		@media (min-width:320px) {
+			.photo-left img { display: block; }
+			.photo-right img { display: block; }
 		}
 
 		</style>

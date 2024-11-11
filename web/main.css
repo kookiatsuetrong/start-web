@@ -185,9 +185,9 @@ h3 { font-size: 1.50rem; font-weight: 400; margin: 0; }
 	--textarea-height: 8rem;
 	
 	--button-border: rgba(25%, 50%, 25%, .75);
-	--button-border-hover: #444;
+	--button-border-hover: #666;
 	--button-text-color: white;
-	--button-text-color-hover: #333;
+	--button-text-color-hover: #666;
 	--button-height: 2.275rem;
 	--button-border-radius: .25rem;
 
