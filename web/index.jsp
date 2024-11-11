@@ -167,7 +167,7 @@
 				</p>
 				<span>
 					<a class="button" 
-						href="/hospital-register">Create Account</a>
+						href="/user-register">Create Account</a>
 				</span>
 			</section>
 			<section class="panel">
@@ -177,7 +177,7 @@
 				</p>
 				<span>
 					<a class="button" 
-						href="/hospital-login">Log In</a>
+						href="/user-login">Log In</a>
 				</span>
 			</section>
 		</section>
