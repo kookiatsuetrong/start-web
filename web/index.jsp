@@ -15,8 +15,8 @@
 	<meta property="og:image"            content="" />
 	<meta property="og:image:secure_url" content="" />
 	<meta property="og:image:type"       content="image/jpg" />
-	<meta property="og:image:width"      content="2322" />
-	<meta property="og:image:height"     content="1272" />
+	<meta property="og:image:width"      content="1980" />
+	<meta property="og:image:height"     content="1280" />
 	<meta property="og:description"      content="Sample" />
 </head>
 <body>
@@ -117,7 +117,7 @@
 		header .white-button {
 			background: white;
 			padding: .5rem 1rem;
-			color: green;
+			color: #666;
 			border-radius: 2rem;
 			border: .1rem solid white;
 			margin-right: .5rem;
@@ -350,7 +350,7 @@
 			}
 		}
 
-		.panel {
+		main .panel {
 			background: rgba(0, 0, 0, .05);
 			border-radius: .75rem;
 			padding: 1.5rem;
@@ -358,32 +358,33 @@
 			grid-template-rows: auto 1fr auto;
 			margin-bottom: 2rem;
 		}
-		.panel h3 {
+		main .panel h3 {
 			margin: 0;
 			text-align: center;
 		}
-		.panel p {
+		main .panel p {
 			margin-bottom: 2rem;
 		}
-		.button {
+		main .button {
 			border-radius: 2rem;
+			border: none;
 			padding: .5rem 1rem;
 		}
-		.button:hover {
-			
+		main .button:hover {
+			border: none;
+			color: #444;
 		}
-
-		.feature-container {
+		main .feature-container {
 			display: grid;
 			column-gap: 2rem;
 		}
 		@media (min-width: 480px) {
-			.feature-container {
+			main .feature-container {
 				grid-template-columns: 1fr 1fr;
 			}
 		}
 		@media (min-width: 768px) {
-			.feature-container {
+			main .feature-container {
 				grid-template-columns: 1fr 1fr 1fr;
 			}
 		}
@@ -392,31 +393,38 @@
 			 90% { transform: scale(1.15); }
 			100% { transform: scale(1.1); }
 		}
-		.feature {
+		main .feature {
 			margin-top: 2rem;
 		}
-		.feature svg {
+		main .feature svg {
 			margin-left: -.25rem;
 			margin-bottom: 1rem;
 			width: 4rem;
 			height: 4rem;
 			stroke: var(--brand-color);
 		}
-		.feature:hover svg {
+		main .feature:hover svg {
 			animation: enlarge .2s;
 			transform: scale(1.1);
+			stroke: #666;
 		}
-		.feature h3 {
+		main .feature h3 {
 			color: var(--text-color);
 			transition: color .2s linear;
 		}
-		.feature:hover h3 {
+		main .feature:hover h3 {
 			color: var(--brand-color);
 		}
 
-		.feature p {
+		main .feature p {
 			margin-top: 1rem;
 			margin-bottom: 2rem;
+			transition: color .2s linear;
+		}
+		main .feature:hover p {
+			margin-top: 1rem;
+			margin-bottom: 2rem;
+			color: var(--brand-color);
 		}
 
 		.statistics {
@@ -454,10 +462,9 @@
 
 		.photo-left img,
 		.photo-right img {
-			background: linear-gradient(220deg, rgba(255, 255, 255, .05),
-												rgba(  0, 255, 128, .15) );
+			background: var(--header-background);
 			border-radius: .75rem;
-			border: .15rem solid rgba(0,0,0,0.1);
+			border: .15rem solid #ccc;
 			width: 100%;
 			min-height: 20rem;
 			overflow: hidden;

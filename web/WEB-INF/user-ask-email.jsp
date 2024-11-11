@@ -4,6 +4,7 @@
 		<title>Register or Log In</title>
 		<link rel="stylesheet" href="/normalize.css" />
 		<link rel="stylesheet" href="/main.css" />
+		<link rel="icon" href="/favicon.ico" />
 	</head>
 	<body>
 		<header></header>
