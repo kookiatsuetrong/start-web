@@ -40,7 +40,7 @@
 					<h1>Your Slogan Here</h1>
 					<p>
 						The quick brown fox jumps
-						over a lazy dlog
+						over a lazy dog.
 					</p>
 					<br/>
 					<a class="white-button" 
@@ -54,9 +54,8 @@
 			</section>
 		</section>
 		<style>
-
 		header {
-			min-height: 40rem;
+			min-height: 35rem;
 			background-image: var(--header-background);
 			color: white;
 		}
@@ -102,11 +101,11 @@
 		}
 
 		header .duo {
-			grid-template-columns: 1fr;
+			grid-template-columns: 1.5fr 1fr;
 		}
 		@media (min-width: 980px) {
 			header .duo {
-				grid-template-columns: 1fr 1.5fr;
+				grid-template-columns: 1fr 1.25fr;
 				column-gap: 2rem;
 			}
 		}
@@ -163,6 +162,8 @@
 				The quick brown fox jumps over a lazy dog.
 				The quick brown dog jumps over a lazy fox.
 				The quick brown fox jumps over a lazy dog.
+				<br/>
+				<br/>
 				</p>
 				<span>
 					<a class="button" 
@@ -365,14 +366,11 @@
 			margin-bottom: 2rem;
 		}
 		.button {
-			background-color: var(--button-background);
-			transition: background .15s linear;
-			color: white;
-			padding: .5rem 1rem;
 			border-radius: 2rem;
+			padding: .5rem 1rem;
 		}
 		.button:hover {
-			background-color: var(--button-background-hover);
+			
 		}
 
 		.feature-container {
