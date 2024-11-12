@@ -3,6 +3,7 @@ package start.web;
 /**
  * Collections of common tools.
  */
+/*
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -10,7 +11,8 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.util.Base64;
 import javax.imageio.ImageIO;
-
+*/
+import java.io.FileReader;
 
 public class Tool {
 	
@@ -18,7 +20,20 @@ public class Tool {
 	*	Creates a photo of the given string.
 	*/
 	public static String createPhotoCode(final String text) {
-		
+		String name = "photo-code/" + text + ".txt";
+		String buffer = "";
+		try {
+			FileReader fr = new FileReader(name);
+			while (true) {
+				int k = fr.read();
+				if (k == -1) break;
+				buffer += (char)k;
+			}
+		} catch (Exception e) { 
+			System.out.println("File not found " + name);
+		}
+		return buffer;
+		/*
 		final int height = 16;
 		final int width = 42;
 		BufferedImage image = new BufferedImage(width, height,
@@ -37,6 +52,7 @@ public class Tool {
 			return Base64.getEncoder().encodeToString(b);
 		} catch (Exception e) { }
 		return "";
+		*/
 	}
 	
 	public static String randomPhotoCode() {
