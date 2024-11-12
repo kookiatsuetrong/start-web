@@ -1,4 +1,6 @@
-javac -classpath "code:runtime/*:runtime" code/*.java
+javac --enable-preview --source 23 \
+-classpath "code:runtime/*:runtime" code/*.java
+
 mv code/*.class runtime
 
 javac -classpath "code:runtime/*:runtime" code/start/web/*.java

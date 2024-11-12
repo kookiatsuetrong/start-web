@@ -9,8 +9,23 @@ class Sample {
 		var server = Server.getInstance();
 		server.handle("/another", () -> "Another Web Page");
 	}
-	
 }
+
+/*
+	void main() {
+
+	}
+
+	void start() {
+		var server = Server.getInstance();
+		server.handle("/another", () -> "Another Web Page");
+		server.handle("/another-one", () -> anotherOne() );
+	}
+
+	Object anotherOne() {
+		return "Another One";
+	}
+*/
 
 /* Additional Idea
 
