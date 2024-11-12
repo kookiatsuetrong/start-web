@@ -1,4 +1,7 @@
 create database sample default character set 'UTF8';
+create user me identified by 'password';
+grant all on sample.* to me;
+
 use sample;
 
 create table users
@@ -26,9 +29,6 @@ create table messages
 
 insert into messages(topic,email,time) 
 	values('Topic 1', 'email@sample.com', utc_timestamp());
-
-create user me identified by 'password';
-grant all on sample.* to me;
 
 
 

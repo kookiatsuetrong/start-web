@@ -54,6 +54,9 @@
 			</section>
 		</section>
 		<style>
+		body {
+			/* background-color: white; */
+		}
 		header {
 			min-height: 35rem;
 			background-image: var(--header-background);
