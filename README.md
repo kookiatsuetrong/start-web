@@ -18,7 +18,7 @@ A minimal style of Java framework for web application and web service
 5. Open web browser to http://localhost:7300
 ```
 
-![](screen.png)
+![](web.png)
 
 ### Configuration file
 
