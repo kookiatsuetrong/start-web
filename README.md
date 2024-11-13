@@ -34,7 +34,7 @@ emailPort     = 587
 emailSecurity = TLSv1.2
 ```
 
-The transaction email can be disable by
+The transaction email can be disabled by
 writing "emailEnabled = false".
 
 
