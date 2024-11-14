@@ -7,6 +7,9 @@
  *
  */
 import java.io.File;
+import java.util.logging.Logger;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
 import org.apache.catalina.Server;
 import org.apache.catalina.Service;
 import org.apache.catalina.Context;
@@ -15,7 +18,6 @@ import org.apache.catalina.connector.Connector;
 
 class Bobcat {
 	public static void main(String[] data) {
-		double k = 80;
 		int port = 12345;
 		String home = "web";
 		String working = "working";
@@ -35,7 +37,15 @@ class Bobcat {
 			}
 		}
 
-		try {
+		LogManager.getLogManager().reset();
+
+		/*
+		Logger logger = Logger.getGlobal();
+		System.out.println(logger);
+		logger.setLevel(Level.OFF);
+		*/
+		
+		try {	
 			Tomcat tomcat = new Tomcat();
 			tomcat.setPort(port);
 			tomcat.setBaseDir(working);

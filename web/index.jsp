@@ -190,15 +190,15 @@
 			<section class="container trio">
 				<span>
 					<h1>24x7</h1>
-					<p>Some Feature Detail</p>
+					<p>Some Statistics</p>
 				</span>
 				<span>
 					<h1>100+</h1>
-					<p>Some Feature Detail</p>
+					<p>Some Statistics</p>
 				</span>
 				<span>
 					<h1>99.7%</h1>
-					<p>Some Feature Detail</p>
+					<p>Some Statistics</p>
 				</span>
 			</section>
 		</section>
