@@ -3,7 +3,7 @@
  * 
  * Example of usage:
  * 
- * java Bobcat --home web --port 1558
+ * java Bobcat --home web --port 7300
  *
  */
 import java.io.File;
@@ -16,7 +16,7 @@ import org.apache.catalina.Context;
 import org.apache.catalina.startup.Tomcat;
 import org.apache.catalina.connector.Connector;
 
-class Bobcat {
+public class Bobcat {
 	public static void main(String[] data) {
 		int port = 12345;
 		String home = "web";
@@ -62,11 +62,13 @@ class Bobcat {
 			System.out.println("ERROR " + e);
 		}
 		
-		// try {
-		// tomcat.stop();
-		// tomcat.destroy();
-		// remove the temporary? check the uploaded file before
-		// } catch (Exception e) { }
+		/*
+		try {
+			tomcat.stop();
+			tomcat.destroy();
+			// remove the temporary working directory
+		} catch (Exception e) { }
+		*/
 	}
 }
 

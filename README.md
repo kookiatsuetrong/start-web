@@ -58,3 +58,12 @@ class Sample {
 Context.forward() reserves HTTP verb.
 Context.redirect() sends HTTP 301 code.
 ```
+
+
+### Product Backlogs
+```
+- As a member, I want to have my profile picture.
+
+- As a visitor, I want to copy/paste my photo in the contract page.
+
+```
