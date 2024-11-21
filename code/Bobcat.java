@@ -38,12 +38,6 @@ public class Bobcat {
 		}
 
 		LogManager.getLogManager().reset();
-
-		/*
-		Logger logger = Logger.getGlobal();
-		System.out.println(logger);
-		logger.setLevel(Level.OFF);
-		*/
 		
 		try {	
 			Tomcat tomcat = new Tomcat();
@@ -53,8 +47,8 @@ public class Bobcat {
 			tomcat.setAddDefaultWebXmlToWebapp(true);
 			Connector connector = tomcat.getConnector();   // Mandatory
 			File file = new File(home);
-			Context c = tomcat.addWebapp("", file.getAbsolutePath());
-			// c.setAltDDName(file.getAbsolutePath() + "/../web.xml");
+			Context context = tomcat.addWebapp("", file.getAbsolutePath());
+			// context.setAltDDName(file.getAbsolutePath() + "/../web.xml");
 			
 			tomcat.start();
 			tomcat.getServer().await();
