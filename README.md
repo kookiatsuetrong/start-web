@@ -6,16 +6,13 @@ A minimal style of Java framework for web application and web service
    git clone https://github.com/kookiatsuetrong/start-web
    cd start-web
 
-2. Create the configuration file (setup.txt)
-   echo "emailEnabled = false" > setup.txt
-
-3. Execute database schema (schema.sql)
+2. Execute database schema (schema.sql)
    sudo mysql < schema.sql
 
-4. Build the system
+3. Build the system
    bash build.sh
 
-5. Open web browser to http://localhost:7300
+Open web browser to http://localhost:7300
 ```
 
 ![](start.png)
