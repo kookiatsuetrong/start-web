@@ -66,8 +66,10 @@ class Main {
 		
 		server.handleError(Main::showError);
 		
-		server.handle("/sample-login").by(Main::showSampleLogIn);
-		server.handle("/sample-login").via("POST").by(Main::checkSampleLogIn);
+		// SQL Injection Demonstration
+		// server.handle("/sample-login").by(Main::showSampleLogIn);
+		// server.handle("/sample-login").via("POST")
+		//								.by(Main::checkSampleLogIn);
 		
 	}
 	
