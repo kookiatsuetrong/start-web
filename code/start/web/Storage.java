@@ -109,4 +109,38 @@ public class Storage {
 		if (first == null) return 0;
 		return first;
 	}
+	
+	/*
+		WARNING: This method can be attacked by sQL Injection
+		Try to log in by this password:
+		select * from user where
+		email = 'x' and password = sha2('y', 512)
+										'
+										'
+					.-------------------'
+					'
+					v
+					', 512) or true; --  
+	*/
+	public static User findUser(String email, String password) {
+		var query = " select * from users where       " +
+					" email = '" + email + "' and     " +
+					" password = sha2('" + password + "', 512)";
+		User user = null;
+		try {
+			var cn = DriverManager.getConnection(source);
+			var sm = cn.createStatement();
+			var rs = sm.executeQuery(query);
+			if (rs.next()) {
+				user = new User();
+				user.email     = rs.getString("email");
+				user.firstName = rs.getString("first_name");
+				user.lastName  = rs.getString("last_name");
+			}
+			rs.close(); sm.close(); cn.close();
+		} catch (Exception e) { }
+
+		return user;
+	}
+	
 }

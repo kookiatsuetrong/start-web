@@ -65,6 +65,10 @@ class Main {
 		server.handle("/contact-final").by(Main::showContactFinalPage);
 		
 		server.handleError(Main::showError);
+		
+		server.handle("/sample-login").by(Main::showSampleLogIn);
+		server.handle("/sample-login").via("POST").by(Main::checkSampleLogIn);
+		
 	}
 	
 	static Object askEmail(Context context) {
@@ -478,6 +482,30 @@ class Main {
 	
 	static Object showContactFinalPage(Context context) {
 		return context.render("/WEB-INF/contact-final.jsp");
+	}
+	
+	static Object showSampleLogIn(Context context) {
+		return context.render("/WEB-INF/sample-login.jsp");
+	}
+	static Object checkSampleLogIn(Context context) {
+		HttpSession session = context.getSession(true);
+		User user = (User)session.getAttribute("user");
+		if (user != null) {
+			return context.redirect("/user-profile");
+		}
+		
+		String email    = context.getParameter("email");
+		String password = context.getParameter("password");
+		
+		user = Storage.findUser(email, password);
+		
+		if (user == null) {
+			session.setAttribute("message", ErrorMessage.INCORRECT_PASSWORD);
+			return context.redirect("/sample-login");
+		}
+		
+		session.setAttribute("user", user);
+		return context.redirect("/user-profile");
 	}
 	
 }
