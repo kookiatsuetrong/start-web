@@ -61,7 +61,7 @@ Context.redirect() sends HTTP 301 code.
 ```
 - As a member, I want to have my profile picture.
 
-- As a visitor, I want to copy/paste my photo in the contract page.
+- As a visitor, I want to copy/paste my photo in the contact page.
 
 - As a visitor, I want to create account from my social network account including Facebook or Google.
 
