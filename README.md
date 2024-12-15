@@ -1,4 +1,5 @@
 # Minimal Framework
+
 A minimal style of Java framework for web application and web service
 
 ```
@@ -59,10 +60,17 @@ Context.redirect() sends HTTP 301 code.
 
 ### Product Backlogs
 ```
-- As a member, I want to have my profile picture.
+M01: As a member, 
+	I want to have my profile picture.
 
-- As a visitor, I want to copy/paste my photo in the contact page.
+V01: As a visitor, 
+	I want to copy/paste my photo in the contact page.
 
-- As a visitor, I want to create account from my social network account including Facebook or Google.
+V02: As a visitor, 
+	I want to create account from my social network account 
+	including Facebook or Google.
+
+A01: As an administrator,
+	I want to configure connection string.
 
 ```

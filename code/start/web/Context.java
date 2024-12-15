@@ -37,4 +37,24 @@ public class Context {
 	public HttpSession getSession(boolean created) {
 		return request.getSession(created);
 	}
+	
+	public boolean isLoggedIn() {
+		HttpSession session = request.getSession(true);
+		User user = (User)session.getAttribute("user");
+		return user != null;
+	}
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

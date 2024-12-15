@@ -74,11 +74,10 @@ class Main {
 	}
 	
 	static Object askEmail(Context context) {
-		HttpSession session = context.getSession(true);
-		User user = (User)session.getAttribute("user");
-		if (user != null) {
+		if (context.isLoggedIn()) {
 			return context.redirect("/user-profile");
 		}
+		HttpSession session = context.getSession(true);
 		String code = Tool.randomPhotoCode();
 		String photoCode = Tool.createPhotoCode(code);
 		session.setAttribute("code", code);
@@ -87,11 +86,10 @@ class Main {
 	}
 	
 	static Object checkEmail(Context context) {
-		HttpSession session = context.getSession(true);
-		User user = (User)session.getAttribute("user");
-		if (user != null) {
+		if (context.isLoggedIn()) {
 			return context.redirect("/user-profile");
 		}
+		HttpSession session = context.getSession(true);
 		String code = (String)session.getAttribute("code");
 		if (code == null) code = "";
 		session.removeAttribute("code");
@@ -103,7 +101,7 @@ class Main {
 		}
 		
 		String email = context.getParameter("email");
-		user = Storage.getUserByEmail(email);
+		User user = Storage.getUserByEmail(email);
 		session.setAttribute("email", email);
 
 		if (user == null) {
@@ -126,12 +124,11 @@ class Main {
 	}
 	
 	static Object showRegisterPage(Context context) {
-		HttpSession session = context.getSession(true);
-		User user = (User)session.getAttribute("user");
-		if (user != null) {
+		if (context.isLoggedIn()) {
 			return context.redirect("/user-profile");
 		}
 		
+		HttpSession session = context.getSession(true);
 		String email = (String)session.getAttribute("email");
 		if (email == null) {
 			return context.redirect("/user-check-email");
@@ -141,11 +138,10 @@ class Main {
 	}
 	
 	static Object createAccount(Context context) {
-		HttpSession session = context.getSession(true);
-		User user = (User)session.getAttribute("user");
-		if (user != null) {
+		if (context.isLoggedIn()) {
 			return context.redirect("/user-profile");
 		}
+		HttpSession session = context.getSession(true);
 		String activation = (String)session.getAttribute("activation-code");
 		
 		String code      = context.getParameter("activation-code");
@@ -209,7 +205,7 @@ class Main {
 		session.removeAttribute("activation-code");
 		Storage.createAccount(email, password, firstName, lastName);
 		
-		user = Storage.checkPassword(email, password);
+		User user = Storage.checkPassword(email, password);
 		session.setAttribute("user", user);
 		
 		if (EmailSender.emailEnabled) {
@@ -224,11 +220,10 @@ class Main {
 	}
 	
 	static Object showLogInPage(Context context) {
-		HttpSession session = context.getSession(true);
-		User user = (User)session.getAttribute("user");
-		if (user != null) {
+		if (context.isLoggedIn()) {
 			return context.redirect("/user-profile");
 		}
+		HttpSession session = context.getSession(true);
 		String email = (String)session.getAttribute("email");
 		if (email == null) {
 			context.redirect("/user-check-email");
@@ -237,15 +232,14 @@ class Main {
 	}
 	
 	static Object checkPassword(Context context) {
-		HttpSession session = context.getSession(true);
-		User user = (User)session.getAttribute("user");
-		if (user != null) {
+		if (context.isLoggedIn()) {
 			return context.redirect("/user-profile");
 		}
+		HttpSession session = context.getSession(true);
 		var email    = context.getParameter("email");
 		var password = context.getParameter("password");
 		
-		user = Storage.checkPassword(email, password);
+		User user = Storage.checkPassword(email, password);
 		if (user == null) {
 			session.setAttribute("message", ErrorMessage.INCORRECT_PASSWORD);
 			return context.redirect("/user-login");
@@ -257,9 +251,7 @@ class Main {
 	}
 	
 	static Object showProfilePage(Context context) {
-		var session = context.getSession(true);
-		User user = (User)session.getAttribute("user");
-		if (user == null) {
+		if (context.isLoggedIn() == false) {
 			// ask user to login before continue
 			return context.redirect("/user-check-email");
 		}
@@ -269,8 +261,8 @@ class Main {
 	}
 	
 	static Object showLogOutPage(Context context) {
-		var session = context.getSession(false);
-		if (session != null) {
+		if (context.isLoggedIn()) {
+			HttpSession session = context.getSession(false);
 			session.removeAttribute("email");
 			session.removeAttribute("user");
 			session.invalidate();
@@ -279,11 +271,10 @@ class Main {
 	}
 	
 	static Object showResetPasswordPage(Context context) {
-		HttpSession session = context.getSession(true);
-		User user = (User)session.getAttribute("user");
-		if (user != null) {
+		if (context.isLoggedIn()) {
 			return context.redirect("/user-profile");
 		}
+		HttpSession session = context.getSession(true);
 		String code = Tool.randomPhotoCode();
 		String photoCode = Tool.createPhotoCode(code);
 		session.setAttribute("code", code);
@@ -292,11 +283,10 @@ class Main {
 	}
 	
 	static Object checkResetPassword(Context context) {
-		HttpSession session = context.getSession(true);
-		User user = (User)session.getAttribute("user");
-		if (user != null) {
+		if (context.isLoggedIn()) {
 			return context.redirect("/user-profile");
 		}
+		HttpSession session = context.getSession(true);
 		String email = context.getParameter("email");
 		String code  = context.getParameter("code");
 		if (email == null) email = "";
@@ -306,7 +296,7 @@ class Main {
 		
 		String value = (String)session.getAttribute("code");
 		
-		user = Storage.getUserByEmail(email);
+		User user = Storage.getUserByEmail(email);
 		if (user == null) {
 			session.setAttribute("message", ErrorMessage.EMAIL_NOT_FOUND);
 			return context.redirect("/reset-password");
@@ -333,11 +323,10 @@ class Main {
 	}
 
 	static Object showResetPasswordCode(Context context) {
-		HttpSession session = context.getSession(true);
-		User user = (User)session.getAttribute("user");
-		if (user != null) {
+		if (context.isLoggedIn()) {
 			return context.redirect("/user-profile");
 		}
+		HttpSession session = context.getSession(true);
 		String activation = (String)session.getAttribute("activation-code");
 		String email = (String)session.getAttribute("email");
 		
@@ -348,11 +337,10 @@ class Main {
 	}
 	
 	static Object resetPasswordCode(Context context) {
-		HttpSession session = context.getSession(true);
-		User user = (User)session.getAttribute("user");
-		if (user != null) {
+		if (context.isLoggedIn()) {
 			return context.redirect("/user-profile");
 		}
+		HttpSession session = context.getSession(true);
 		
 		String email = (String)session.getAttribute("email");
 		String code  = context.getParameter("activation-code");
@@ -406,9 +394,7 @@ class Main {
 	}
 	
 	static Object showResetPasswordFinal(Context context) {
-		HttpSession session = context.getSession(true);
-		User user = (User)session.getAttribute("user");
-		if (user != null) {
+		if (context.isLoggedIn()) {
 			return context.redirect("/user-profile");
 		}
 		return context.render("/WEB-INF/reset-password-final.jsp");
@@ -416,8 +402,8 @@ class Main {
 	
 	static Object showContactPage(Context context) {
 		HttpSession session = context.getSession(true);
-		User user = (User)session.getAttribute("user");
-		if (user != null) {
+		if (context.isLoggedIn()) {
+			User user = (User)session.getAttribute("user");
 			session.setAttribute("email", user.email);
 		}
 		String code = Tool.randomPhotoCode();
@@ -490,16 +476,15 @@ class Main {
 		return context.render("/WEB-INF/sample-login.jsp");
 	}
 	static Object checkSampleLogIn(Context context) {
-		HttpSession session = context.getSession(true);
-		User user = (User)session.getAttribute("user");
-		if (user != null) {
+		if (context.isLoggedIn()) {
 			return context.redirect("/user-profile");
 		}
+		HttpSession session = context.getSession(true);
 		
 		String email    = context.getParameter("email");
 		String password = context.getParameter("password");
 		
-		user = Storage.findUser(email, password);
+		User user = Storage.findUser(email, password);
 		
 		if (user == null) {
 			session.setAttribute("message", ErrorMessage.INCORRECT_PASSWORD);
