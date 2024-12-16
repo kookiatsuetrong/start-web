@@ -302,7 +302,7 @@ class Main {
 	// GET /user-logout
 	static Object showLogOutPage(Context context) {
 		if (context.isLoggedIn()) {
-			HttpSession session = context.getSession(false);
+			HttpSession session = context.getSession(true);
 			session.removeAttribute("email");
 			session.removeAttribute("user");
 			session.invalidate();
