@@ -72,7 +72,14 @@ class Main {
 		//								.by(Main::checkSampleLogIn);
 		
 	}
+
 	
+	/*
+	*  Asks for email address from the visitor
+	*
+	*  GET /user-check-email
+	*
+	*/
 	static Object askEmail(Context context) {
 		if (context.isLoggedIn()) {
 			return context.redirect("/user-profile");
@@ -84,15 +91,22 @@ class Main {
 		session.setAttribute("photo-code", photoCode);
 		return context.render("/WEB-INF/user-ask-email.jsp");
 	}
+
 	
+	/*
+	*  Checks the email address from the visitor
+	*
+	*  POST /user-check-email
+	*
+	*/
 	static Object checkEmail(Context context) {
 		if (context.isLoggedIn()) {
 			return context.redirect("/user-profile");
 		}
 		HttpSession session = context.getSession(true);
 		String code = (String)session.getAttribute("code");
-		if (code == null) code = "";
 		session.removeAttribute("code");
+		if (code == null) code = "";
 		String photoCode = context.getParameter("code");
 		
 		if (code.equals(photoCode) == false) {
@@ -105,24 +119,32 @@ class Main {
 		session.setAttribute("email", email);
 
 		if (user == null) {
-			// This email is a new email, create new account
+			// This email is a new email, then create new account.
+			// This email is not in the database, then create a new account.
 			String activation = Tool.randomActivationCode();
 			session.setAttribute("activation-code", activation);
 			
 			if (EmailSender.emailEnabled) {
-				Email e = new Email();
-				e.sendActivationCode(email, activation);
-			} else {
+				new Email().sendActivationCode(email, activation);
+			}
+			if (EmailSender.emailEnabled == false) {
 				session.setAttribute("code", activation);
 			}
 			
 			return context.redirect("/user-register");
 		}
 
-		// This email is in the database, go to login
+		// This email is in the database, then go to login page
 		return context.redirect("/user-login");
 	}
 	
+
+	/*
+	*  Displays the create account page
+	*
+	*  GET /user-register
+	*
+	*/
 	static Object showRegisterPage(Context context) {
 		if (context.isLoggedIn()) {
 			return context.redirect("/user-profile");
@@ -136,7 +158,13 @@ class Main {
 		
 		return context.render("/WEB-INF/user-register.jsp");
 	}
-	
+
+	/*
+	*  Verifies user detail and create account.
+	*
+	*  POST /user-register
+	*
+	*/	
 	static Object createAccount(Context context) {
 		if (context.isLoggedIn()) {
 			return context.redirect("/user-profile");
@@ -215,10 +243,18 @@ class Main {
 		return context.redirect("/user-profile");
 	}
 	
+
+	/*
+	*  Display error
+	*
+	*  GET /error
+	*/
 	static Object showError(Context context) {
 		return context.render("/WEB-INF/error.jsp");
 	}
+
 	
+	// GET /user-login
 	static Object showLogInPage(Context context) {
 		if (context.isLoggedIn()) {
 			return context.redirect("/user-profile");
@@ -231,6 +267,7 @@ class Main {
 		return context.render("/WEB-INF/user-login.jsp");
 	}
 	
+	// POST /user-login
 	static Object checkPassword(Context context) {
 		if (context.isLoggedIn()) {
 			return context.redirect("/user-profile");
@@ -250,16 +287,19 @@ class Main {
 		return context.redirect("/user-profile");
 	}
 	
+
+	// GET /user-profile
 	static Object showProfilePage(Context context) {
-		if (context.isLoggedIn() == false) {
-			// ask user to login before continue
-			return context.redirect("/user-check-email");
+		if (context.isLoggedIn()) {
+			// display user profile page
+			return context.render("/WEB-INF/user-profile.jsp");
 		}
-		
-		// display user profile page
-		return context.render("/WEB-INF/user-profile.jsp");
+			
+		// ask user to login before continue
+		return context.redirect("/user-check-email");
 	}
 	
+	// GET /user-logout
 	static Object showLogOutPage(Context context) {
 		if (context.isLoggedIn()) {
 			HttpSession session = context.getSession(false);
@@ -269,7 +309,9 @@ class Main {
 		}
 		return context.render("/WEB-INF/user-logout.jsp");
 	}
-	
+
+
+	// GET /reset-password
 	static Object showResetPasswordPage(Context context) {
 		if (context.isLoggedIn()) {
 			return context.redirect("/user-profile");
@@ -281,7 +323,9 @@ class Main {
 		session.setAttribute("photo-code", photoCode);
 		return context.render("/WEB-INF/reset-password.jsp");
 	}
-	
+
+
+	// POST /reset-password
 	static Object checkResetPassword(Context context) {
 		if (context.isLoggedIn()) {
 			return context.redirect("/user-profile");
@@ -356,8 +400,7 @@ class Main {
 		String confirm = context.getParameter("confirm");
 		
 		if (password == null || password.length() < 8) {
-			session.setAttribute("message", 
-						"Password is at least 8 characters");
+			session.setAttribute("message", ErrorMessage.PASSWORD_TOO_SHORT);
 			return context.redirect("/reset-password-code");
 		}
 		
