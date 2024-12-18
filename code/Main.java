@@ -23,8 +23,56 @@ activation-code ---> Activation Code
 message         ---> Error message
 */
 
+/*
+
+	Any POST request must be immediately followed 
+	by GET Request
+
+	Create Account
+	'
+	'-- GET  /user-check-email
+		POST /user-check-email
+		'
+		'-- GET  /user-register
+			POST /user-register
+			'
+			'-- GET /user-profile
+
+
+	Log In
+	'
+	'-- GET  /user-check-email
+		POST /user-check-email
+		'
+		'-- GET  /user-login
+			POST /user-login
+			'
+			'-- GET /user-profile
+
+
+	Recover Password
+	'
+	'-- GET  /reset-password
+		POST /reset-password
+		'
+		'-- GET  /reset-password-code
+			POST /reset-password-code
+			'
+			'-- GET  /reset-password-final
+
+
+	Contact
+	'
+	'-- GET  /contact
+		POST /contact
+		'
+		'-- GET  /contact-final
+
+*/
+
 class Main {
-	
+
+
 	void start() {
 		var server = Server.getInstance();
 		
@@ -73,9 +121,9 @@ class Main {
 		
 	}
 
-	
+
 	/*
-	*  Asks for email address from the visitor
+	*  Asks email address from the visitor
 	*
 	*  GET /user-check-email
 	*
@@ -92,7 +140,7 @@ class Main {
 		return context.render("/WEB-INF/user-ask-email.jsp");
 	}
 
-	
+
 	/*
 	*  Checks the email address from the visitor
 	*
@@ -158,6 +206,7 @@ class Main {
 		
 		return context.render("/WEB-INF/user-register.jsp");
 	}
+
 
 	/*
 	*  Verifies user detail and create account.
@@ -245,7 +294,7 @@ class Main {
 	
 
 	/*
-	*  Display error
+	*  Displays error
 	*
 	*  GET /error
 	*/
@@ -253,8 +302,12 @@ class Main {
 		return context.render("/WEB-INF/error.jsp");
 	}
 
-	
-	// GET /user-login
+
+	/*
+	*  Displays the log in page
+	*
+	*  GET /user-login
+	*/
 	static Object showLogInPage(Context context) {
 		if (context.isLoggedIn()) {
 			return context.redirect("/user-profile");
@@ -266,8 +319,13 @@ class Main {
 		}
 		return context.render("/WEB-INF/user-login.jsp");
 	}
-	
-	// POST /user-login
+
+
+	/*
+	*  Checks email and password
+	*
+	*  POST /user-login
+	*/
 	static Object checkPassword(Context context) {
 		if (context.isLoggedIn()) {
 			return context.redirect("/user-profile");
@@ -286,9 +344,13 @@ class Main {
 		session.setAttribute("user", user);
 		return context.redirect("/user-profile");
 	}
-	
 
-	// GET /user-profile
+
+	/*
+	*  Displays profile of the current user
+	*
+	*  GET /user-profile
+	*/
 	static Object showProfilePage(Context context) {
 		if (context.isLoggedIn()) {
 			// display user profile page
@@ -299,7 +361,12 @@ class Main {
 		return context.redirect("/user-check-email");
 	}
 	
-	// GET /user-logout
+	
+	/*
+	*   Logs out
+	*
+	*   GET /user-logout
+	*/
 	static Object showLogOutPage(Context context) {
 		if (context.isLoggedIn()) {
 			HttpSession session = context.getSession(true);
@@ -311,7 +378,11 @@ class Main {
 	}
 
 
-	// GET /reset-password
+	/*
+	*  Displays page for user to recover password
+	*
+	*  GET /reset-password
+	*/
 	static Object showResetPasswordPage(Context context) {
 		if (context.isLoggedIn()) {
 			return context.redirect("/user-profile");
@@ -325,7 +396,11 @@ class Main {
 	}
 
 
-	// POST /reset-password
+	/*
+	*  Checks email and photo-code
+	*
+	*  POST /reset-password
+	*/
 	static Object checkResetPassword(Context context) {
 		if (context.isLoggedIn()) {
 			return context.redirect("/user-profile");
@@ -366,6 +441,12 @@ class Main {
 		return context.redirect("/reset-password-code");
 	}
 
+	
+	/*
+	*  Asks the confirmation-code
+	*
+	*  GET /reset-password-code
+	*/
 	static Object showResetPasswordCode(Context context) {
 		if (context.isLoggedIn()) {
 			return context.redirect("/user-profile");
@@ -379,7 +460,13 @@ class Main {
 		}
 		return context.render("/WEB-INF/reset-password-code.jsp");
 	}
-	
+
+
+	/*
+	*  Checks the confirmation-code
+	*
+	*  POST /reset-password-code
+	*/
 	static Object resetPasswordCode(Context context) {
 		if (context.isLoggedIn()) {
 			return context.redirect("/user-profile");
@@ -435,14 +522,26 @@ class Main {
 		session.setAttribute("message", ErrorMessage.PASSWORD_RESET_SUCCESS);
 		return context.redirect("/reset-password-final");
 	}
-	
+
+
+	/*
+	*  Displays the password resetting result
+	*
+	*  GET /reset-password-final
+	*/
 	static Object showResetPasswordFinal(Context context) {
 		if (context.isLoggedIn()) {
 			return context.redirect("/user-profile");
 		}
 		return context.render("/WEB-INF/reset-password-final.jsp");
 	}
-	
+
+
+	/*
+	*  Displays the contact page
+	*
+	*  GET /contact
+	*/
 	static Object showContactPage(Context context) {
 		HttpSession session = context.getSession(true);
 		if (context.isLoggedIn()) {
@@ -456,6 +555,12 @@ class Main {
 		return context.render("/WEB-INF/contact.jsp");
 	}
 
+
+	/*
+	*  Adds detail from contact page
+	*
+	*  POST /contact
+	*/
 	static Object saveContactDetail(Context context) {
 		String topic  = context.getParameter("topic");
 		String detail = context.getParameter("detail");
@@ -511,13 +616,32 @@ class Main {
 		return context.redirect("/contact-final");
 	}
 	
+	
+	/*
+	*  Displays the contact page final message
+	*
+	*  GET /contact-final
+	*/
 	static Object showContactFinalPage(Context context) {
 		return context.render("/WEB-INF/contact-final.jsp");
 	}
 	
+	
+	/*
+	*  For SQL Injection demonstration only
+	*
+	*  GET /sample-login
+	*/
 	static Object showSampleLogIn(Context context) {
 		return context.render("/WEB-INF/sample-login.jsp");
 	}
+	
+	
+	/*
+	*  For SQL Injection demonstration only
+	*
+	*  POST /sample-login
+	*/
 	static Object checkSampleLogIn(Context context) {
 		if (context.isLoggedIn()) {
 			return context.redirect("/user-profile");
@@ -537,5 +661,6 @@ class Main {
 		session.setAttribute("user", user);
 		return context.redirect("/user-profile");
 	}
+	
 	
 }
