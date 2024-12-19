@@ -115,9 +115,11 @@ class Main {
 		server.handleError(Main::showError);
 		
 		// SQL Injection Demonstration
-		// server.handle("/sample-login").by(Main::showSampleLogIn);
-		// server.handle("/sample-login").via("POST")
-		//								.by(Main::checkSampleLogIn);
+		/*
+		server.handle("/sample-login").by(Main::showSampleLogIn);
+		server.handle("/sample-login").via("POST")
+		.by(Main::checkSampleLogIn);
+		*/
 		
 	}
 
