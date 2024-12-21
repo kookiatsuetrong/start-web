@@ -13,6 +13,8 @@ import jakarta.servlet.http.Part;
 import java.io.File;
 import start.web.EmailSender;
 
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 /*
 List of session variable
 user            ---> Detail of current user
@@ -70,8 +72,14 @@ message         ---> Error message
 
 */
 
-class Main {
+import java.rmi.Remote;
 
+interface SampleServer extends Remote {
+	// String[] getList() throws Exception;
+	String call(String path) throws Exception;
+}
+
+class Main {
 
 	void start() {
 		var server = Server.getInstance();
@@ -122,8 +130,8 @@ class Main {
 		*/
 		
 	}
-
-
+	
+	
 	/*
 	*  Asks email address from the visitor
 	*
