@@ -72,13 +72,6 @@ message         ---> Error message
 
 */
 
-import java.rmi.Remote;
-
-interface SampleServer extends Remote {
-	// String[] getList() throws Exception;
-	String call(String path) throws Exception;
-}
-
 class Main {
 
 	void start() {
